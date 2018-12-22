@@ -1,5 +1,5 @@
 # vision_project
-Repo for the Vision Algorithms for Mobile Robotics Course Project 2018
+Repo for the Vision Algorithms for Mobile Robotics Course Project 2018. In this project a simple visual odometry pipeline is created.
 
 ### Installation
 
