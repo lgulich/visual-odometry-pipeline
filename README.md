@@ -1,7 +1,7 @@
-# vision_project
+# Vision Project
 Repo for the Vision Algorithms for Mobile Robotics Course Project 2018. In this project a simple visual odometry pipeline is created.
 
-### Installation
+### How to setup this project
 
 Download the repo using
 ```
