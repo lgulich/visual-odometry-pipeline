@@ -10,4 +10,6 @@ git clone https://github.com/lgulich/vision_project.git
 
 Initialize the Matlab path by running the file `init_workspace.m`
 
+The VO pipeline can be executed by running the file `main.m`
+
 For more information see the [wiki](https://github.com/lgulich/vision_project/wiki)
