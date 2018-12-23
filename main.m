@@ -1,6 +1,8 @@
 %% Clear Workspace
 clear all
+close all
 clc
+rng(1) % set seed for repeatable results
 
 %% Setup
 ds = 2; % 0: KITTI, 1: Malaga, 2: parking
@@ -46,8 +48,8 @@ else
     assert(false);
 end
 
-% set camera parameters
-params.cam = cameraParameters('IntrinsicMatrix',K); 
+% set camera parameters (! matlab uses transposed K matrix)
+params.cam = cameraParameters('IntrinsicMatrix',K'); 
 
 %% Bootstrap
 % frames used for initial bootstrapping

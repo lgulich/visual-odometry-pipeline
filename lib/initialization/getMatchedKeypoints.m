@@ -1,9 +1,13 @@
 function [matched_kp_1, matched_kp_2] = getMatchedKeypoints(des_1, des_2, kp_1, kp_2)
-% get matching keypoints between two images
-%   :param des_1 matrix MxN, N descriptors from first image
-%   :param des_2 matrix MxN, N descriptors from second image
-%   :return matched_kp_1 vector 2xN, the N matched keypoints from image 1
-%   :return matched_kp_2 vector 2xN, the N matched keypoints from image 2
+% Get matching keypoints between two images
+%
+%   :param des_1: class binaryFeatures, descriptors from first image
+%   :param des_2: class binaryFeatures, descriptors from second image
+%   :param kp_1: class cornerPoint, keypoints from first image
+%   :param kp_2: class cornerPoint, keypoints from second image
+%
+%   :return matched_kp_1: class cornerPoints etc, the matched keypoints from image 1
+%   :return matched_kp_2: class cornerPoints etc, the matched keypoints from image 2
 
 % match features between descriptors
 index_pairs = matchFeatures(des_1, des_2);
