@@ -1,12 +1,16 @@
 function [descriptors, valid_points] = getDescriptors(img, points, params)
-%   get keypoints of image
-%   :param img matrix, image to extract keypoints
-%   :param kp matrix 2xN, N keypoints
-%   :param type string, type of descriptor eg 'Block', 'FREAK', 'SURF'
-%   :returns des matrix MxN, returns N descriptors, each of size M
+% Get the descriptors of an image and its keypoints
 %
+%   :param img: matrix, image to extract keypoints
+%   :param points: class cornerPoints etc, detected keypoints
+%   :param params: struct, the parameter struct
+%
+%   :return descriptors: class binaryFeatures, the descriptors
+%   :return valid_points: class cornerPoints etc, the keypoints valid for
+%   extracting a descriptor
 
-%TODO add type of descriptor
+% extract descriptor, type of descriptor is chosing according to type of
+% keypoint class
 [descriptors, valid_points] = extractFeatures(img, points);
 
 end
