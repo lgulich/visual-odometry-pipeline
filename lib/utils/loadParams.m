@@ -32,7 +32,7 @@ if strcmp(dataset, 'kitti')
 
 % params for MALAGA  
 elseif strcmp(dataset, 'malaga')
-    warning('[loadParams] params for malaga not implemented')
+    params.bootstrap_frames = [1,3];
     
 % params for PARKING
 elseif strcmp(dataset, 'parking')

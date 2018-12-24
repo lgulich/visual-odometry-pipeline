@@ -5,7 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 2; % 0: KITTI, 1: Malaga, 2: parking
+ds = 1; % 0: KITTI, 1: Malaga, 2: parking
 datasets={'kitti', 'malaga', 'parking'};
 
 % load params
