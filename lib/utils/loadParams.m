@@ -16,24 +16,24 @@ function [params] = loadParams(dataset)
     params.parking_path = 'data/parking';
 
     params.bootstrap_frames = [1, 2]; % overriden for all datasets
-    
+
 %% Keypoint detection and maching
     params.keypoint_type = 'harris';
     params.n_keypoints = 100;
     params.descriptor_type = 'Block';
     params.descriptor_size = 11; % has to be odd
     assert(mod(params.descriptor_size, 2)==1)
-    
+
 %% Dataset specific parameters
 
 % params for KITTI
 if strcmp(dataset, 'kitti')
     params.bootstrap_frames = [1,3];
 
-% params for MALAGA  
+% params for MALAGA
 elseif strcmp(dataset, 'malaga')
     params.bootstrap_frames = [1,3];
-    
+
 % params for PARKING
 elseif strcmp(dataset, 'parking')
     params.bootstrap_frames = [1,3];
@@ -41,4 +41,3 @@ elseif strcmp(dataset, 'parking')
 end
 
 end
-
