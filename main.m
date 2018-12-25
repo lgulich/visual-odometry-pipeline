@@ -1,6 +1,7 @@
 %% Clear Workspace
 clear all
 close all
+close all
 clc
 rng(1) % set seed for repeatable results
 
