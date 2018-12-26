@@ -1,0 +1,18 @@
+function S_0 = initializeState(keypoints_0, landmarks_0)
+
+% Initialization of the state.
+%
+% ------------------------------------------------------------------------
+%   Inputs:     - keypoints_0(2xM)  :    initial keypoints
+%               - landmarks_0(3xM)  :    initial landmarks
+%
+%   Outputs:    - S_0               :    struct containing the variables of 
+%                                        the initial state
+% ------------------------------------------------------------------------
+assert()
+S_0.P = keypoints_0;
+S_0.X = landmarks_0;
+S_0.C = [];
+S_0.F = [];
+S_0.T = [];
+end

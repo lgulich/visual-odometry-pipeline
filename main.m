@@ -1,5 +1,5 @@
 %% Clear Workspace
-clear all
+clear 
 close all
 clc
 rng(1) % set seed for repeatable results
@@ -49,7 +49,7 @@ else
 end
 
 % set camera parameters (! matlab uses transposed K matrix)
-params.cam = cameraParameters('IntrinsicMatrix',K');
+params.cam = cameraParameters('IntrinsicMatrix', K.');
 
 %% Bootstrap
 % frames used for initial bootstrapping
@@ -77,13 +77,18 @@ elseif ds == 2
 
 else
     assert(false);
-
+    
 end
 
-[p_0, landmarks] = initialize(img0, img1, params);
+[init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
 
 %% Continuous operation
+% Setup
 range = (bootstrap_frames(2)+1):last_frame;
+prev_img = img1;
+prev_state = initializeState(init_keypoints, init_landmarks);
+
+% Process frames
 for i = range
     fprintf('\n\nProcessing frame %d\n=====================\n', i);
     if ds == 0
@@ -98,8 +103,13 @@ for i = range
     else
         assert(false);
     end
+    
+    % Update state and camera pose
+    [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
+    
     % Makes sure that plots refresh.
     pause(0.01);
 
     prev_img = image;
+    prev_state = curr_state;
 end

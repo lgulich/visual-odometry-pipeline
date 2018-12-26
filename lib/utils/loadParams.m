@@ -24,6 +24,13 @@ function [params] = loadParams(dataset)
     params.descriptor_size = 11; % has to be odd
     assert(mod(params.descriptor_size, 2)==1)
 
+%% Continuous operation parameters
+params.lambda = 0.1;                    % maximum bidirectional error
+params.min_angle = 4;                   % minimum angle for triangulating  
+                                        % new landmarks (degrees)
+params.new_cand_kpt_threshold = 3;     % threshold for selecting new 
+                                        % candidate keypoints
+    
 %% Dataset specific parameters
 
 % params for KITTI
