@@ -12,8 +12,8 @@ function [landmarks] = getLandmarks(matched_kp_1, matched_kp_2, pose, params)
 %   :return landmarks: 3xN matrix, 3d-position of the keypoints in the
 %   worldframe
 
-assert((size(pose, 1))==4)
-assert((size(pose, 2))==4)
+assert((size(pose, 1))==4);
+assert((size(pose, 2))==4);
 
 % Compute the camera matrices for each position of the camera
 % The first camera is at the origin looking along the Z-axis. Thus, its

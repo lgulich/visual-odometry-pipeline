@@ -14,8 +14,11 @@ function [pose, kp_inliers_idx] = getRelativePose(matched_kp_1,matched_kp_2, par
 
 
 % estimate the fundamental matrix using RANSAC
-[F, kp_inliers_idx, status] = estimateFundamentalMatrix(matched_kp_1, matched_kp_2, 'Method','RANSAC', 'NumTrials',2000, 'DistanceThreshold',1e-4);
-assert(status==0)
+[F, kp_inliers_idx, status] = estimateFundamentalMatrix( ...
+                                matched_kp_1, matched_kp_2, ...
+                                'Method','RANSAC', 'NumTrials', 2000, ...
+                                'DistanceThreshold', 1e-4);
+assert(status==0);
 
 % get the relative camera pose between images using only the keypoint inliers
 inlierPoints1 = matched_kp_1(kp_inliers_idx, :);
@@ -25,8 +28,7 @@ inlierPoints2 = matched_kp_2(kp_inliers_idx, :);
  
 % check that fraction is big enough
 if valid_points_fraction < 0.5
-    msg = sprintf('[getRelativePose] WARNING: relative pose might be false, measured low fraction if %f', valid_points_fraction);
-    warning(msg)
+    warning('[getRelativePose] WARNING: relative pose might be false, measured low fraction if %f', valid_points_fraction);
 end
 
 % combine orientation and translation to single homogeneus transformation
