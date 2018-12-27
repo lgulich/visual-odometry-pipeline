@@ -1,10 +1,11 @@
 function [S_curr, T_W_C_curr] = processFrame(I_curr, I_prev, S_prev, params)
 
 % Implementation of the VO continuous operation. Each frame is processed
-% according to the following three steps: 1) keypoints in the current frame
-% are associated to previously triangulated landmarks, 2) the current
-% camera pose is subsequently estimated and 3) new landmarks are
-% triangulated.
+% according to the following three steps: 
+%   1) keypoints in the current frame are associated to previously 
+%       triangulated landmarks
+%   2) the current camera pose is subsequently estimated
+%   3) new landmarks are triangulated.
 % The state at the i-th frame is represented as suggested in the mini-pro-
 % ject statement: S = (P, X, C, F, T). 
 %

@@ -1,11 +1,10 @@
-
 function [params] = loadParams(dataset)
 % save all parameters to a parameters struct
 %   :param dataset: string, the dataset used, eg. 'kitti', 'malaga', 'parking',
 %       'ascento'
 %   :return params: struct, the parameters
 %
-% Note: add your parameters here. If the parameter is specific for a
+% NOTE: add your parameters here. If the parameter is specific for a
 % dataset add it again in the 'dataset specific parameters' section and
 % make sure to add a comment in the default section that it was overriden.
 % For an example see the parameter 'bootstrap_frames' which is overriden
@@ -14,7 +13,7 @@ function [params] = loadParams(dataset)
 
 
 %% General parameters
-params.viz_enabled = false;
+params.viz_enabled = true;
 
 params.kitti_path = 'data/kitti';
 params.malaga_path = 'data/malaga';
@@ -23,23 +22,23 @@ params.ascento_path = 'data/ascento';
 
 
 %% Initialization parameters
-params.bootstrap_frames = [1, 2]; % overriden for all datasets
+params.bootstrap_frames = [1, 2];   % overriden for all datasets
 
 % keypoint detection and maching
 params.keypoint_type = 'harris';
-params.n_keypoints = 100;
-params.descriptor_type = 'Block';
-params.descriptor_size = 11; % has to be odd
+params.n_keypoints = 40;
+params.descriptor_size = 11;        % has to be odd
 assert(mod(params.descriptor_size, 2)==1)
 
+params.matching_mode = 'patch_matching'; %'patch_matching' or 'klt'
+
 %% Continuous operation parameters
-% minimum angle for triangulating
-params.min_angle = 2;
-% threshold for selecting new candidate keypoints
-params.new_cand_kpt_threshold = 3;
+params.min_angle = 2;               % minimum angle for triangulating
+params.new_cand_kpt_threshold = 3;  % threshold for selecting new candidate keypoints
+
 
 % KLT parameters
-params.lambda = 1; % maximum bidirectional error
+params.lambda = 1;                  % maximum bidirectional error
 params.num_pyr_levels = 5;
 params.bl_size = [31, 31];
 params.max_its = 32;
@@ -66,7 +65,7 @@ elseif strcmp(dataset, 'parking')
 
 % params for ASCENTO
 elseif strcmp(dataset, 'ascento')
-    params.bootstrap_frames = [1,3];
+    params.bootstrap_frames = [1,5];
 
 end
 

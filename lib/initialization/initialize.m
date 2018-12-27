@@ -19,7 +19,8 @@ kp_2 = getKeypoints(img_2, params);
 [des_2, valid_kp_2] = getDescriptors(img_2, kp_2, params);
 
 % match keypoints between images
-[matched_kp_1, matched_kp_2] = getMatchedKeypoints(des_1, des_2, valid_kp_1, valid_kp_2);
+[matched_kp_1, matched_kp_2] = getMatchedKeypoints(des_1, des_2, ...
+                            valid_kp_1, valid_kp_2, img_1, img_2, params);
 
 % estimate relative pose between images
 [pose, kp_inliers_idx] = getRelativePose(matched_kp_1, matched_kp_2, params);
@@ -48,8 +49,7 @@ if params.viz_enabled
     cam_1 = plotCamera('Location',[0 0 0], 'Orientation',eye(3), 'Label','Camera1', 'AxesVisible',true, 'Size',2, 'Color',[0,0,0]);
     cam_2 = plotCamera('Location',t ,'Orientation',R , 'Label','Camera2', 'Size',2);
     scatter3(marks(1,:), marks(2,:), marks(3,:), 'filled' )
-    %xlim([-5 5]); ylim([-3 3]); 
-    zlim([-1 60]);
+    %xlim([-5 5]); ylim([-3 3]); zlim([-1 60]);
     xlabel('x'); ylabel('y'); zlabel('z')
     view(0, 0); % view directly from top
     title('3D Scene');

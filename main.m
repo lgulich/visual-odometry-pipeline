@@ -5,7 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 0; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
+ds = 3; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
 datasets={'kitti', 'malaga', 'parking', 'ascento'};
 
 % load params
@@ -15,7 +15,6 @@ kitti_path = params.kitti_path;
 malaga_path = params.malaga_path;
 parking_path = params.parking_path;
 ascento_path = params.ascento_path;
-
 
 if ds == 0
     % need to set kitti_path to folder containing "00" and "poses"
@@ -55,7 +54,7 @@ elseif ds == 3
     load([ascento_path '/est_states.mat']);
 
 else
-    assert(false);
+    error('dataset not found');
 
 end
 
@@ -93,7 +92,7 @@ elseif ds == 3
         sprintf('/images/img_%05d.png',bootstrap_frames(2))]);
 
 else
-    assert(false);
+    error('dataset not found');
 
 end
 
@@ -128,7 +127,7 @@ for i = range
             sprintf('/images/img_%05d.png',i)]));
 
     else
-        assert(false);
+        error('dataset not found');
 
     end
 
