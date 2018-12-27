@@ -17,7 +17,7 @@ function [S_curr, T_W_C_curr] = processFrame(I_curr, I_prev, S_prev, params)
 %
 %   Outputs:    - S_curr            :    struct containing the variables of 
 %                                        the current state
-%               - T_WC_curr(16x1)   :    current camera pose w.r.t. the
+%               - T_W_C_curr(3x4)   :    current camera pose w.r.t. the
 %                                        world frame
 % ------------------------------------------------------------------------
 
@@ -28,9 +28,11 @@ assert(all(isfield(S_prev, state_fields)), ...
                         'Some fields are missing in the state struct.');
 assert(all(isfield(params, params_fields)), ...
                         'Some fields are missing in the parameters struct.');
-                    
+                                        
 % Process the frame
-[S_curr.P, T_W_C_curr] = ...
+S_curr = S_prev;
+
+[S_curr.P, S_curr.X, T_W_C_curr] = ...
     estimateCurrentPose(I_curr, I_prev, S_prev.P, S_prev.X, params);               
 S_curr = triangulateNewLandmarks(I_curr, I_prev, S_curr, params, T_W_C_curr);
 

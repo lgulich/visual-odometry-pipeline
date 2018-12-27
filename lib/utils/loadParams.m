@@ -9,7 +9,7 @@ function [params] = loadParams(dataset)
 % For an example see the parameter 'bootstrap_frames' which is overriden
 % for all datasets
 %% General parameters
-    params.viz_enabled = true;
+    params.viz_enabled = false;
 
     params.kitti_path = 'data/kitti';
     params.malaga_path = 'data/malaga';
@@ -25,10 +25,10 @@ function [params] = loadParams(dataset)
     assert(mod(params.descriptor_size, 2)==1)
 
 %% Continuous operation parameters
-params.lambda = 0.1;                    % maximum bidirectional error
-params.min_angle = 4;                   % minimum angle for triangulating  
+params.lambda = 1e-2;                    % maximum bidirectional error
+params.min_angle = 16;                   % minimum angle for triangulating  
                                         % new landmarks (degrees)
-params.new_cand_kpt_threshold = 3;     % threshold for selecting new 
+params.new_cand_kpt_threshold = 2;     % threshold for selecting new 
                                         % candidate keypoints
     
 %% Dataset specific parameters
