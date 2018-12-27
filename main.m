@@ -5,8 +5,8 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 1; % 0: KITTI, 1: Malaga, 2: parking
-datasets={'kitti', 'malaga', 'parking'};
+ds = 3; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
+datasets={'kitti', 'malaga', 'parking', 'ascento'};
 
 % load params
 params = loadParams(datasets{ds+1});
@@ -14,6 +14,7 @@ params = loadParams(datasets{ds+1});
 kitti_path = params.kitti_path;
 malaga_path = params.malaga_path;
 parking_path = params.parking_path;
+ascento_path = params.ascento_path;
 
 if ds == 0
     % need to set kitti_path to folder containing "00" and "poses"
@@ -44,6 +45,13 @@ elseif ds == 2
 
     ground_truth = load([parking_path '/poses.txt']);
     ground_truth = ground_truth(:, [end-8 end]);
+
+elseif ds == 3
+    % Path containing images, depths and all...
+    assert(exist('ascento_path', 'var') ~= 0);
+    last_frame = 200;
+    K = load([ascento_path '/K.txt']);
+    load([ascento_path '/est_states.mat']);
 else
     assert(false);
 end
@@ -74,6 +82,12 @@ elseif ds == 2
         sprintf('/images/img_%05d.png',bootstrap_frames(1))]));
     img1 = rgb2gray(imread([parking_path ...
         sprintf('/images/img_%05d.png',bootstrap_frames(2))]));
+    
+elseif ds == 3
+    img0 = imread([ascento_path ...
+        sprintf('/images/img_%05d.png',bootstrap_frames(1))]);
+    img1 = imread([ascento_path ...
+        sprintf('/images/img_%05d.png',bootstrap_frames(2))]);
 
 else
     assert(false);
@@ -83,6 +97,9 @@ end
 [p_0, landmarks] = initialize(img0, img1, params);
 
 %% Continuous operation
+fprintf('\n Press any key to start the continous operation...');
+pause; %% TODO remove before hand-in
+
 range = (bootstrap_frames(2)+1):last_frame;
 for i = range
     fprintf('\n\nProcessing frame %d\n=====================\n', i);
@@ -95,6 +112,9 @@ for i = range
     elseif ds == 2
         image = im2uint8(rgb2gray(imread([parking_path ...
             sprintf('/images/img_%05d.png',i)])));
+    elseif ds == 3
+        image = im2uint8(imread([ascento_path ...
+            sprintf('/images/img_%05d.png',i)]));
     else
         assert(false);
     end

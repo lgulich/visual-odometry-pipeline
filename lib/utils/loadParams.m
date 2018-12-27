@@ -14,6 +14,7 @@ function [params] = loadParams(dataset)
     params.kitti_path = 'data/kitti';
     params.malaga_path = 'data/malaga';
     params.parking_path = 'data/parking';
+    params.ascento_path = 'data/ascento';
 
     params.bootstrap_frames = [1, 2]; % overriden for all datasets
 
@@ -36,6 +37,10 @@ elseif strcmp(dataset, 'malaga')
 
 % params for PARKING
 elseif strcmp(dataset, 'parking')
+    params.bootstrap_frames = [1,3];
+    
+    % params for ASCENTO
+elseif strcmp(dataset, 'ascento')
     params.bootstrap_frames = [1,3];
 
 end
