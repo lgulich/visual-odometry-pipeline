@@ -1,4 +1,4 @@
-function [newValidLandmarksIdx, newLandmarks] = isNewKeypoint( ...
+function [newValidKeypointsIdx, newLandmarks] = isNewKeypoint( ...
                     cand_kpts2, cand_kpts_k, T_W_C2, T_W_Ck, params)
     
 % This function checks whether the condition for new landmarks to be
@@ -33,7 +33,7 @@ M2 = cameraMatrix(params.cam, R2, T2);      % projection matrix
 
 num_kpts = size(cand_kpts2, 2);
 newLandmarks = zeros(3,num_kpts);
-newValidLandmarksIdx = zeros(1,num_kpts);
+newValidKeypointsIdx = false(1,num_kpts);
 for idx = 1:num_kpts
     T_W_Cidx = reshape(T_W_Ck(:,idx), [3,4]);
     [Ridx,Tidx] = cameraPoseToExtrinsics(T_W_Cidx(:,1:3), T_W_Cidx(:,end));
@@ -47,10 +47,8 @@ for idx = 1:num_kpts
     r2 = T_W_C2(:,end) - newLandmarks(:,idx);
     angle = atan2d(norm(cross(r1,r2)), dot(r1,r2));         % angle (°)
     if abs(angle) > params.min_angle
-        newValidLandmarksIdx(idx) = 1;
+        newValidKeypointsIdx(idx) = true;
     end
 end
-
-newValidLandmarksIdx = logical(newValidLandmarksIdx);
 
 end

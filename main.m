@@ -106,10 +106,10 @@ for i = range
     
     % Update state and camera pose
     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
-    
-    % Makes sure that plots refresh.
-    pause(0.01);
 
+    % Make sure that plots refresh
+    pause(0.01);
+    
     prev_img = image;
     prev_state = curr_state;
 end

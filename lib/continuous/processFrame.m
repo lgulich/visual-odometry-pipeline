@@ -30,10 +30,12 @@ assert(all(isfield(params, params_fields)), ...
                         'Some fields are missing in the parameters struct.');
                                         
 % Process the frame
-S_curr = S_prev;
+[S_prev.P, S_prev.X, T_W_C_curr] = ...
+    estimateCurrentPose(I_curr, I_prev, S_prev.P, S_prev.X, params);       
 
-[S_curr.P, S_curr.X, T_W_C_curr] = ...
-    estimateCurrentPose(I_curr, I_prev, S_prev.P, S_prev.X, params);               
-S_curr = triangulateNewLandmarks(I_curr, I_prev, S_curr, params, T_W_C_curr);
+S_prev = triangulateNewLandmarks(I_curr, I_prev, S_prev, params, T_W_C_curr);
+
+% Return the update state
+S_curr = S_prev;
 
 end

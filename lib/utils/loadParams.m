@@ -25,10 +25,10 @@ function [params] = loadParams(dataset)
     assert(mod(params.descriptor_size, 2)==1)
 
 %% Continuous operation parameters
-params.lambda = 1e-2;                    % maximum bidirectional error
-params.min_angle = 16;                   % minimum angle for triangulating  
+params.lambda = 1e-1;                    % maximum bidirectional error
+params.min_angle = 4;                   % minimum angle for triangulating  
                                         % new landmarks (degrees)
-params.new_cand_kpt_threshold = 2;     % threshold for selecting new 
+params.new_cand_kpt_threshold = 1;     % threshold for selecting new 
                                         % candidate keypoints
     
 %% Dataset specific parameters

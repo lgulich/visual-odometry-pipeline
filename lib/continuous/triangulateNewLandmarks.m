@@ -15,7 +15,6 @@ function S_out = triangulateNewLandmarks(I_curr, I_prev, S_in, params, T_W_C_in)
 %                                        the current state
 % ------------------------------------------------------------------------
 
-S_out = S_in;
 if ~isempty(S_in.C)
     % Track the candidate keypoints from the previous frame
     pointTracker = vision.PointTracker('MaxBidirectionalError', params.lambda);
@@ -23,30 +22,46 @@ if ~isempty(S_in.C)
 
     [trackedCandidateKeypoints, isTracked] = step(pointTracker, I_curr);
     trackedCandidateKeypoints = trackedCandidateKeypoints(isTracked,:).';
-
-    % Update the state
-    [newValidLandmarksIdx,newLandmarks] = isNewKeypoint( trackedCandidateKeypoints, ...
-                S_in.F(:,isTracked), T_W_C_in, S_in.T(:,isTracked), params );  
-    S_out.P = [S_in.P, trackedCandidateKeypoints(:,newValidLandmarksIdx)];
-    S_out.X = [S_in.X, newLandmarks(:,newValidLandmarksIdx)];
-    S_out.C = trackedCandidateKeypoints(:,~newValidLandmarksIdx);
-    S_out.F = S_in.F(:,~newValidLandmarksIdx);
-    S_out.T = S_in.T(:,~newValidLandmarksIdx);
+    
+    % Add new landmarks and their associated keypoints to the state, i.e. 
+    % update X^i and P^i, if and only if the bearing vectors from the
+    % tracked candidate landmarks to the origin of the camera frames where
+    % c^i and f^i belongs to form angles greater than a certain threshold
+    % alpha (see problem statement 4.3)
+    S_in.F = S_in.F(:,isTracked);
+    S_in.T = S_in.T(:,isTracked);
+    [newValidKeypointsIdx,newLandmarks] = isNewKeypoint( ...
+            trackedCandidateKeypoints, S_in.F, T_W_C_in, S_in.T, params ); 
+            
+    % Update the state eventually removing elements from C^i, F^i and T^i 
+    % and adding elements to P^i and X^i.
+    S_in.P = [S_in.P, trackedCandidateKeypoints(:,newValidKeypointsIdx)];
+    S_in.X = [S_in.X, newLandmarks(:,newValidKeypointsIdx)];
+    
+    S_in.C = trackedCandidateKeypoints(:,~newValidKeypointsIdx);
+    S_in.F = S_in.F(:,~newValidKeypointsIdx);
+    S_in.T = S_in.T(:,~newValidKeypointsIdx);
     
     release(pointTracker)
 end
 
-% Detect new Harris corners not rendundant with existing keypoints and
-% candidate landmarks
+% Detect new Harris corners 
+num_new_corners = max([params.n_keypoints - length(S_in.P) - length(S_in.C); 1]);
 corners = detectHarrisFeatures(I_curr);
-corners = corners.selectStrongest(params.n_keypoints).Location.';
+corners = corners.selectStrongest(num_new_corners).Location.';
 
+% Update the state sets C^i, F^i and T^i such that the new candidate 
+% keypoints are not rendundant with existing keypoints in P^i and candidate
+% keypoints in C^i.
 newCandidateKeypoints = ...
-    selectNewCandidateKeypoints(corners, S_out.P, S_out.C, params);  
+    selectNewCandidateKeypoints(corners, S_in.P, S_in.C, params);  
 
+S_in.C = [S_in.C, newCandidateKeypoints];
+S_in.F = [S_in.F, newCandidateKeypoints];
 num_new_cand_kpts = size(newCandidateKeypoints, 2);
-S_out.C = [S_out.C, newCandidateKeypoints];
-S_out.F = [S_out.F, newCandidateKeypoints];
-S_out.T = [S_out.T, repmat(T_W_C_in(:), [1,num_new_cand_kpts])];
+S_in.T = [S_in.T, repmat(T_W_C_in(:), [1,num_new_cand_kpts])];
+
+% Return the updated state
+S_out = S_in;
 
 end
