@@ -5,7 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 2; % 0: KITTI, 1: Malaga, 2: parking
+ds = 0; % 0: KITTI, 1: Malaga, 2: parking
 datasets={'kitti', 'malaga', 'parking'};
 
 % load params
@@ -109,7 +109,7 @@ for i = range
     
     % Make sure that plots refresh
     pause(0.01);
-    
+
     prev_img = image;
     prev_state = curr_state;
 end

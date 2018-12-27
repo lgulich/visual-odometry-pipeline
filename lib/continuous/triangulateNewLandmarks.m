@@ -17,7 +17,10 @@ function S_out = triangulateNewLandmarks(I_curr, I_prev, S_in, params, T_W_C_in)
 
 if ~isempty(S_in.C)
     % Track the candidate keypoints from the previous frame
-    pointTracker = vision.PointTracker('MaxBidirectionalError', params.lambda);
+    pointTracker = vision.PointTracker('MaxBidirectionalError', params.lambda, ...
+                                   'NumPyramidLevels', params.num_pyr_levels, ...
+                                   'BlockSize', params.bl_size, ...
+                                   'MaxIterations', params.max_its);
     initialize(pointTracker, S_in.C.', I_prev);     
 
     [trackedCandidateKeypoints, isTracked] = step(pointTracker, I_curr);
@@ -45,14 +48,16 @@ if ~isempty(S_in.C)
     release(pointTracker)
 end
 
-% Detect new Harris corners 
+% Detect N new Harris corners, where N is arbitrarily defined as the
+% difference between a certain number of desired keypoints and the sum of
+% the existing keypoints and the candidate ones 
 num_new_corners = max([params.n_keypoints - length(S_in.P) - length(S_in.C); 1]);
 corners = detectHarrisFeatures(I_curr);
 corners = corners.selectStrongest(num_new_corners).Location.';
 
 % Update the state sets C^i, F^i and T^i such that the new candidate 
 % keypoints are not rendundant with existing keypoints in P^i and candidate
-% keypoints in C^i.
+% keypoints in C^i
 newCandidateKeypoints = ...
     selectNewCandidateKeypoints(corners, S_in.P, S_in.C, params);  
 
