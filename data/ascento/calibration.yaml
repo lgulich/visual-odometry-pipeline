@@ -1,0 +1,9 @@
+cam0:
+  cam_overlaps: []
+  camera_model: pinhole
+  distortion_coeffs: [-0.0409132294348775, 0.003052350398358245, 0.0076469517511512895,
+    -0.013178638115714144]
+  distortion_model: equidistant
+  intrinsics: [483.4384512521193, 483.4384512521193, 369.22366773561635, 252.57930034463308]
+  resolution: [752, 480]
+  rostopic: /arduino_vi/forward/image_raw
