@@ -23,7 +23,8 @@ function [S_curr, T_W_C_curr] = processFrame(I_curr, I_prev, S_prev, params)
 
 % Sanity check
 state_fields = {'P', 'X', 'C', 'F', 'T'};
-params_fields = {'lambda', 'min_angle', 'new_cand_kpt_threshold', 'cam'};
+params_fields = {'lambda', 'min_angle', 'new_cand_kpt_threshold', 'cam', ...
+                 'max_num_trials', 'conf', 'max_repr_err'};
 assert(all(isfield(S_prev, state_fields)), ...
                         'Some fields are missing in the state struct.');
 assert(all(isfield(params, params_fields)), ...

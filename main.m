@@ -5,7 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 1; % 0: KITTI, 1: Malaga, 2: parking
+ds = 2; % 0: KITTI, 1: Malaga, 2: parking
 datasets={'kitti', 'malaga', 'parking'};
 
 % load params
@@ -106,7 +106,7 @@ for i = range
     
     % Update state and camera pose
     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
-
+    
     % Make sure that plots refresh
     pause(0.01);
     
