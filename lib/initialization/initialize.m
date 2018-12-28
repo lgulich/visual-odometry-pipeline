@@ -5,7 +5,7 @@ function [pose, matched_kp_2, marks] = initialize(img_1,img_2, params)
 %   :param img_1: matrix NxM, the first initial image
 %   :param img_2: matrix NxM, the second initial image
 %
-%   :return p_0: matrix 4x4, the initial pose of the camera
+%   :return pose: matrix 4x4, the initial pose of the camera
 %   :matched_kp_2: matrix 2xN, the keypoints corresponding to the initial
 %                  landmarks
 %   :return marks: matrix 3xN, 3d-positions in world frame of initial landmarks

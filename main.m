@@ -99,6 +99,9 @@ end
 
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
 
+% initialize plot
+num_landmarks_tracked = [zeros(1,19), length(init_landmarks)];
+
 %% Continuous operation
 
 fprintf('\n Press any key to start the continous operation...');
@@ -137,7 +140,13 @@ for i = range
 
     % Make sure that plots refresh
     pause(0.01);
-
+    
+    % PLOT
+   
+    mainPlot(curr_state, T_W_C_curr, image);
+    
+    %END PLOT
+    
     prev_img = image;
     prev_state = curr_state;
 end
