@@ -104,8 +104,8 @@ num_landmarks_tracked = [zeros(1,19), length(init_landmarks)];
 
 %% Continuous operation
 
-fprintf('\n Press any key to start the continous operation...');
-pause; %% TODO remove before hand-in
+% fprintf('\n Press any key to start the continous operation...');
+% pause; %% TODO remove before hand-in
 
 % Setup
 range = (bootstrap_frames(2)+1):last_frame;
@@ -142,7 +142,7 @@ for i = range
     pause(0.01);
     
     % PLOT
-   
+    num_landmarks_tracked = [num_landmarks_tracked(1,2:end), length(curr_state.X)];
     mainPlot(curr_state, T_W_C_curr, image);
     
     %END PLOT
