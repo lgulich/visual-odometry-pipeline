@@ -143,7 +143,7 @@ for i = range
     
     % PLOT
     num_landmarks_tracked = [num_landmarks_tracked(1,2:end), length(curr_state.X)];
-    mainPlot(curr_state, T_W_C_curr, image);
+    mainPlot(curr_state, T_W_C_curr, image, num_landmarks_tracked);
     
     %END PLOT
     
