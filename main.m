@@ -5,7 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 3; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
+ds = 0; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
 datasets={'kitti', 'malaga', 'parking', 'ascento'};
 
 % load params
@@ -15,6 +15,7 @@ kitti_path = params.kitti_path;
 malaga_path = params.malaga_path;
 parking_path = params.parking_path;
 ascento_path = params.ascento_path;
+
 
 if ds == 0
     % need to set kitti_path to folder containing "00" and "poses"
@@ -52,12 +53,14 @@ elseif ds == 3
     last_frame = 200;
     K = load([ascento_path '/K.txt']);
     load([ascento_path '/est_states.mat']);
+
 else
     assert(false);
+
 end
 
 % set camera parameters (! matlab uses transposed K matrix)
-params.cam = cameraParameters('IntrinsicMatrix',K');
+params.cam = cameraParameters('IntrinsicMatrix', K.');
 
 %% Bootstrap
 % frames used for initial bootstrapping
@@ -82,7 +85,7 @@ elseif ds == 2
         sprintf('/images/img_%05d.png',bootstrap_frames(1))]));
     img1 = rgb2gray(imread([parking_path ...
         sprintf('/images/img_%05d.png',bootstrap_frames(2))]));
-    
+
 elseif ds == 3
     img0 = imread([ascento_path ...
         sprintf('/images/img_%05d.png',bootstrap_frames(1))]);
@@ -94,17 +97,24 @@ else
 
 end
 
-[p_0, landmarks] = initialize(img0, img1, params);
+[init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
 
 %% Continuous operation
+
 fprintf('\n Press any key to start the continous operation...');
 pause; %% TODO remove before hand-in
 
+% Setup
 range = (bootstrap_frames(2)+1):last_frame;
+prev_img = img1;
+prev_state = initializeState(init_keypoints, init_landmarks);
+
+% Process frames
 for i = range
     fprintf('\n\nProcessing frame %d\n=====================\n', i);
     if ds == 0
         image = imread([kitti_path '/00/image_0/' sprintf('%06d.png',i)]);
+
     elseif ds == 1
         image = rgb2gray(imread([malaga_path ...
             '/malaga-urban-dataset-extract-07_rectified_800x600_Images/' ...
@@ -112,14 +122,22 @@ for i = range
     elseif ds == 2
         image = im2uint8(rgb2gray(imread([parking_path ...
             sprintf('/images/img_%05d.png',i)])));
+
     elseif ds == 3
         image = im2uint8(imread([ascento_path ...
             sprintf('/images/img_%05d.png',i)]));
+
     else
         assert(false);
+
     end
-    % Makes sure that plots refresh.
+
+    % Update state and camera pose
+    [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
+
+    % Make sure that plots refresh
     pause(0.01);
 
     prev_img = image;
+    prev_state = curr_state;
 end

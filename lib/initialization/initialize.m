@@ -1,11 +1,13 @@
-function [pose, marks] = initialize(img_1,img_2, params)
+function [pose, matched_kp_2, marks] = initialize(img_1,img_2, params)
 % Initialize the vo pipeline by calculating an initial estimate of camera
 % pose and landmarks
 %
 %   :param img_1: matrix NxM, the first initial image
 %   :param img_2: matrix NxM, the second initial image
 %
-%   :return p_0: vector 3x1, the initial position of the camera
+%   :return p_0: matrix 4x4, the initial pose of the camera
+%   :matched_kp_2: matrix 2xN, the keypoints corresponding to the initial
+%                  landmarks
 %   :return marks: matrix 3xN, 3d-positions in world frame of initial landmarks
 
 % get keypoints of images using harris detector
