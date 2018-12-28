@@ -1,4 +1,4 @@
-function [] = mainPlot(curr_state, T_W_C_curr, image, num_landmarks_tracked,T_W_C_all,ground_truth)
+function [] = mainPlot(curr_state, T_W_C_curr, image, num_landmarks_tracked,T_W_C_all_vec,ground_truth)
 
     fig=figure(1);
 %%  top left: image and keypoints. +++ PLEASE CHECK IF THE SELECTED MARKS ARE
@@ -22,15 +22,20 @@ fig.Position = [1 1 1920 1080];
  subplot(3,4,[6,10]);
  
  if isempty(ground_truth)
-            plot(T_W_C_all(1,:), T_W_C_all(3,:),'bx');
+            plot(T_W_C_all_vec(1,:), T_W_C_all_vec(3,:),'bx');
             grid off;
             axis equal;
             title('full trajectory');
             set(gcf, 'GraphicsSmoothing', 'on');
             
         else         
-            history_size = size(T_W_C_all,2);
-            plot(ground_truth(1:history_size,1),ground_truth(1:history_size,2),'rx',T_W_C_all(1,:), T_W_C_all(3,:), 'bx');
+            history_size = size(T_W_C_all_vec,2);
+          
+            %%%UNCOMMENT NEXT LINE AND DELETE THE LINE AFTER IF YOU WANT TO
+            %%%PLOT ALSO THE GROUND TRUTH
+            
+            % plot(ground_truth(1:history_size,1),ground_truth(1:history_size,2),'rx',T_W_C_all_vec(1,:), T_W_C_all_vec(3,:), 'bx');
+             plot(T_W_C_all_vec(1,:), T_W_C_all_vec(3,:),'bx');
             grid off;
             axis equal;
             title('full trajectory');
