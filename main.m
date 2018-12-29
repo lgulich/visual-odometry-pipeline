@@ -101,7 +101,9 @@ end
 
 % initialize plot
 num_landmarks_tracked = [zeros(1,19), length(init_landmarks)];
-T_W_C_all=zeros(3,1);
+T_W_C_all_vec = zeros(3,1);
+T_W_C_all_hom_old = eye(4);
+T_W_C_hom_old = eye(4);
 
 %% Continuous operation
 
@@ -145,8 +147,14 @@ for i = range
     % PLOT
     num_landmarks_tracked = [num_landmarks_tracked(1,2:end), length(curr_state.X)];
     
-    T_W_C_all=[T_W_C_all, (T_W_C_curr(:,4) + T_W_C_all(:,end))];
-    mainPlot(curr_state, T_W_C_curr, image, num_landmarks_tracked,T_W_C_all,ground_truth);
+    T_W_C_curr_hom_new = T_W_C_hom_old * [T_W_C_curr ; 0 0 0 1];
+    
+    T_W_C_vec = T_W_C_curr_hom_new(1:3,4);
+    
+    
+    T_W_C_all_vec=[T_W_C_all_vec, T_W_C_vec];
+    
+    mainPlot(curr_state, T_W_C_curr, image, num_landmarks_tracked,T_W_C_all_vec,ground_truth);
     
     %END PLOT
     
