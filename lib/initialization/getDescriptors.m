@@ -11,6 +11,8 @@ function [descriptors, valid_points] = getDescriptors(img, points, params)
 
 % extract descriptor, type of descriptor is chosing according to type of
 % keypoint class
-[descriptors, valid_points] = extractFeatures(img, points);
+[descriptors, valid_points] = extractFeatures(img, points, ...
+                                              'Method', 'Block', ...
+                                              'BlockSize', params.descriptor_size);
 
 end

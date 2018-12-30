@@ -2,15 +2,15 @@ function [pose, kp_inliers_idx] = getRelativePose(matched_kp_1,matched_kp_2, par
 % Get the relative pose between the images from the matched keypoints
 %
 %   :param matched_kp_1: class cornerPoint, the matching keypoints from the
-%   first image
+%       first image
 %   :param matched_kp_2: class cornerPoint, the matching keypoints from the
-%   second image
+%       second image
 %   :param params struct: general parameter struct
 %
 %   :return pose: 4x4 matrix: the relative camera pose between the frames
-%   expressed as a homogeneous transformation
+%       expressed as a homogeneous transformation
 %   :return kp_inliers_idx: vector 1xN, bool for every keypoint wheter it
-%   is a inlier or not
+%       is a inlier or not
 
 
 % estimate the fundamental matrix using RANSAC
@@ -25,7 +25,8 @@ assert(status == 0);
 inlierPoints1 = matched_kp_1(kp_inliers_idx, :);
 inlierPoints2 = matched_kp_2(kp_inliers_idx, :);
 
-[R, T, valid_points_fraction] = relativeCameraPose(F, params.cam, inlierPoints1, inlierPoints2);
+[R, T, valid_points_fraction] = relativeCameraPose(F, params.cam, ...
+                                    inlierPoints1, inlierPoints2);
  
 % check that fraction is big enough
 if valid_points_fraction < 0.5
