@@ -45,8 +45,8 @@ params.max_its = 32;
 
 % P3P parameters
 params.max_num_trials = 32000;
-params.conf = 84;
-params.max_repr_err = 3;
+params.conf = 99.9;
+params.max_repr_err = 0.8;
 
 
 %% Dataset specific parameters
