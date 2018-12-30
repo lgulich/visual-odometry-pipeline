@@ -1,5 +1,5 @@
 %% Clear Workspace
-clear all
+clear 
 close all
 clc
 rng(1) % set seed for repeatable results
@@ -7,6 +7,7 @@ rng(1) % set seed for repeatable results
 %% Setup
 ds = 0; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
 datasets={'kitti', 'malaga', 'parking', 'ascento'};
+ground_truth = [];
 
 % load params
 params = loadParams(datasets{ds+1});
@@ -99,10 +100,27 @@ end
 
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
 
+%% Initialize plot
+num_tracked_landmarks_all = [zeros(1,18), size(init_landmarks,2), ...
+                                zeros(1,last_frame-bootstrap_frames(2))];
+
+% Only take the x and z coordinates of the translation vector
+t_W_C_all = [zeros(2,18), init_pose([1,3],end), ...     
+                                zeros(2,last_frame-bootstrap_frames(2))];
+                            
+% Each cell contains the x and z coordinates of the tracked landmarks of
+% the corresponding frames
+trackedLandmarksOverLast20Frames = cell(1,20);
+for i = 1:19
+    trackedLandmarksOverLast20Frames{i} = single([]);
+end
+trackedLandmarksOverLast20Frames{end} = init_landmarks([1,3],:);
+last20FramesIdx = 1:20;
+
 %% Continuous operation
 
 fprintf('\n Press any key to start the continous operation...');
-pause; %% TODO remove before hand-in
+pause; % TODO remove before hand-in
 
 % Setup
 range = (bootstrap_frames(2)+1):last_frame;
@@ -135,6 +153,14 @@ for i = range
     % Update state and camera pose
     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
 
+    % Plot
+    [last20FramesIdx, ...
+     num_tracked_landmarks_all, t_W_C_all, trackedLandmarksOverLast20Frames] = ...
+                                plotVO( curr_state, T_W_C_curr, image, ...
+                                num_tracked_landmarks_all, t_W_C_all, ...
+                                trackedLandmarksOverLast20Frames, ...
+                                last20FramesIdx, ground_truth );  
+    
     % Make sure that plots refresh
     pause(0.01);
 

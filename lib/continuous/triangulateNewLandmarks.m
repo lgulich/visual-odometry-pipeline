@@ -52,8 +52,10 @@ end
 % difference between a certain number of desired keypoints and the sum of
 % the existing keypoints and the candidate ones 
 num_new_corners = max([params.n_keypoints - length(S_in.P) - length(S_in.C); 1]);
-corners = detectHarrisFeatures(I_curr);
-corners = corners.selectStrongest(num_new_corners).Location.';
+corners = 	detectHarrisFeatures(I_curr);
+corners = corners.selectStrongest(4*num_new_corners);               % TODO
+corners = selectUniform(corners, num_new_corners, size(I_curr));    % TODO
+corners = corners.Location.';
 
 % Update the state sets C^i, F^i and T^i such that the new candidate 
 % keypoints are not rendundant with existing keypoints in P^i and candidate
