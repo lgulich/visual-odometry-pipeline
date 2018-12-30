@@ -32,12 +32,15 @@ curr_kpts = trackedKeypoints(isTracked,:).';                % (2xS)
 curr_landmarks = prev_landmarks(:,isTracked);               % (3xS)
 assert(size(curr_kpts, 2) == size(curr_landmarks, 2));
 
+release(pointTracker)
+
 % Estimate the camera pose in the world coordinate system
 [R, T, inlierIdx, status] = ...
     estimateWorldCameraPose(curr_kpts.', curr_landmarks.', params.cam, ...
                                 'MaxNumTrials', params.max_num_trials, ...
                                 'Confidence', params.conf, ...
                                 'MaxReprojectionError', params.max_repr_err);
+% warning('off', 'vision:ransac:maxTrialsReached');
 assert(status == 0, sprintf('Error in P3P: status = %d.', status));
 
 curr_kpts = curr_kpts(:,inlierIdx);

@@ -27,7 +27,7 @@ params.bootstrap_frames = [1, 2]; % overriden for all datasets
 
 % keypoint detection and maching
 params.keypoint_type = 'harris';
-params.n_keypoints = 100;
+params.n_keypoints = 400;
 params.descriptor_type = 'Block';
 params.descriptor_size = 11; % has to be odd
 assert(mod(params.descriptor_size, 2)==1)
@@ -46,8 +46,8 @@ params.max_its = 32;
 
 % P3P parameters
 params.max_num_trials = 32000;
-params.conf = 84;
-params.max_repr_err = 3;
+params.conf = 99.9;
+params.max_repr_err = 0.8;
 
 
 %% Dataset specific parameters
