@@ -44,10 +44,16 @@ set(gcf, 'GraphicsSmoothing', 'on')
 subplot(4,4,[3,4,7,8,11,12,15,16])
 plot(t_W_C_all(1,last20FramesIdx), t_W_C_all(2,last20FramesIdx),'b-o',...
             'MarkerSize', 1.6, 'MarkerFaceColor', 'b'), hold on
-plot(trackedLandmarksOverLast20Frames{end}(1,:), trackedLandmarksOverLast20Frames{end}(2,:), 'rx', 'MarkerSize', 1.2)
+plot(trackedLandmarksOverLast20Frames{end}(1,:), trackedLandmarksOverLast20Frames{end}(2,:), 'kx', 'MarkerSize', 3.2)
 grid off, axis equal, hold off
 title('Trajectory of last 20 frames and landmarks.')
 set(gcf, 'GraphicsSmoothing', 'on')
+
+% xdist = abs(t_W_C_all(1,curr_frame_idx) - t_W_C_all(1,last20FramesIdx(1)))*2.4;
+% zdist = abs(t_W_C_all(2,curr_frame_idx) - t_W_C_all(2,last20FramesIdx(1)))*2.4;
+% xlim([t_W_C_all(1,curr_frame_idx)-xdist, t_W_C_all(1,curr_frame_idx)+xdist])
+% ylim([t_W_C_all(2,curr_frame_idx)-zdist, t_W_C_all(2,curr_frame_idx)+zdist])
+axis equal
 
 % Update indexes
 last20FramesIdx_next = last20FramesIdx + 1;
