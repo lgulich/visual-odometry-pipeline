@@ -13,7 +13,7 @@ if strcmp(params.keypoint_type, 'harris')
 elseif strcmp(params.keypoint_type, 'surf')
     points = detectSURFFeatures(img)
     
-elseif strcmp(params.keypoint_type, 'FAST')
+elseif strcmp(params.keypoint_type, 'fast')
     points = detectFASTFeatures(img)
     
 end

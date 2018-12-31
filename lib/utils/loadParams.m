@@ -26,7 +26,7 @@ params.bootstrap_frames = [1, 2];   % overriden for all datasets
 
 % keypoint detection and maching
 params.keypoint_type = 'harris';
-params.n_keypoints = 40;
+params.n_keypoints = 1000;
 params.descriptor_size = 11;        % has to be odd
 assert(mod(params.descriptor_size, 2)==1)
 

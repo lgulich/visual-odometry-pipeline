@@ -1,4 +1,4 @@
-function [pose, matched_kp_2, marks] = initialize(img_1,img_2, params)
+function [pose, valid_kp, valid_marks] = initialize(img_1,img_2, params)
 % Initialize the vo pipeline by calculating an initial estimate of camera
 % pose and landmarks
 %
@@ -27,6 +27,8 @@ kp_2 = getKeypoints(img_2, params);
 
 % triangulate pointclouds
 marks = getLandmarks(matched_kp_1, matched_kp_2, pose, params);
+valid_marks = marks(:, marks(3,:)>=0);
+valid_kp = matched_kp_2(marks(3,:)>=0);
 
 % if the vizualisation is enabled plot the features and pointcloud
 if params.viz_enabled

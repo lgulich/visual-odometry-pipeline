@@ -50,7 +50,7 @@ elseif ds == 2
 elseif ds == 3
     % Path containing images, depths and all...
     assert(exist('ascento_path', 'var') ~= 0);
-    last_frame = 200;
+    last_frame = 1000;
     K = load([ascento_path '/K.txt']);
     load([ascento_path '/est_states.mat']);
 
@@ -88,9 +88,9 @@ elseif ds == 2
 
 elseif ds == 3
     img0 = imread([ascento_path ...
-        sprintf('/images/img_%05d.png',bootstrap_frames(1))]);
+        sprintf('/images_rect/img_%05d.png',bootstrap_frames(1))]);
     img1 = imread([ascento_path ...
-        sprintf('/images/img_%05d.png',bootstrap_frames(2))]);
+        sprintf('/images_rect/img_%05d.png',bootstrap_frames(2))]);
 
 else
     error('dataset not found');
@@ -142,7 +142,7 @@ for i = range
 
     elseif ds == 3
         image = im2uint8(imread([ascento_path ...
-            sprintf('/images/img_%05d.png',i)]));
+            sprintf('/images_rect/img_%05d.png',i)]));
 
     else
         error('dataset not found');

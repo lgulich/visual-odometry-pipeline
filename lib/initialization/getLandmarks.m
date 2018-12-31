@@ -27,9 +27,8 @@ cam_matrix_2 = cameraMatrix(params.cam, R, t);
 % Compute the 3-D points
 landmarks = triangulate(matched_kp_1, matched_kp_2, cam_matrix_1, cam_matrix_2);
 
-% filter out all landmarks which lie behind the camera
+% transpose landmarks to convention
 landmarks = landmarks';
-landmarks = landmarks(:, landmarks(3,:)>=0);
 
 end
 
