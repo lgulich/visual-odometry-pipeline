@@ -32,41 +32,86 @@ assert(mod(params.descriptor_size, 2)==1)
 
 params.matching_mode = 'patch_matching'; %'patch_matching' or 'klt'
 
-%% Continuous operation parameters
-params.min_angle = 2;               % minimum angle for triangulating
-params.new_cand_kpt_threshold = 3;  % threshold for selecting new candidate keypoints
-
-
-% KLT parameters
-params.lambda = 1;                  % maximum bidirectional error
-params.num_pyr_levels = 5;
-params.bl_size = [31, 31];
-params.max_its = 32;
-
-% P3P parameters
-params.max_num_trials = 32000;
-params.conf = 99.9;
-params.max_repr_err = 0.8;
-
-
 %% Dataset specific parameters
-
 % params for KITTI
 if strcmp(dataset, 'kitti')
     params.bootstrap_frames = [1,3];
+    
+    % Continuous operation parameters
+    params.min_angle = 2;               % minimum angle for triangulating
+    params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
+                                        % candidate keypoints
 
+    % KLT parameters
+    params.lambda = 1;                  % maximum bidirectional error
+    params.num_pyr_levels = 5;
+    params.bl_size = [31, 31];
+    params.max_its = 32;
+
+    % P3P parameters
+    params.max_num_trials = 32000;
+    params.conf = 99.9;
+    params.max_repr_err = 0.8;
+    
 % params for MALAGA
 elseif strcmp(dataset, 'malaga')
     params.bootstrap_frames = [1,3];
+    
+    % Continuous operation parameters
+    params.min_angle = 2;               % minimum angle for triangulating
+    params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
+                                        % candidate keypoints
+
+    % KLT parameters
+    params.lambda = 1;                  % maximum bidirectional error
+    params.num_pyr_levels = 5;
+    params.bl_size = [31, 31];
+    params.max_its = 32;
+
+    % P3P parameters
+    params.max_num_trials = 32000;
+    params.conf = 99.9;
+    params.max_repr_err = 0.8;
 
 % params for PARKING
 elseif strcmp(dataset, 'parking')
     params.bootstrap_frames = [1,3];
+    
+    % Continuous operation parameters
+    params.min_angle = 2;               % minimum angle for triangulating
+    params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
+                                        % candidate keypoints
 
+    % KLT parameters
+    params.lambda = 1;                  % maximum bidirectional error
+    params.num_pyr_levels = 5;
+    params.bl_size = [31, 31];
+    params.max_its = 32;
+
+    % P3P parameters
+    params.max_num_trials = 32000;
+    params.conf = 99.9;
+    params.max_repr_err = 0.8;
+    
 % params for ASCENTO
 elseif strcmp(dataset, 'ascento')
     params.bootstrap_frames = [1,5];
+    
+    % Continuous operation parameters
+    params.min_angle = 2;               % minimum angle for triangulating
+    params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
+                                        % candidate keypoints
 
+    % KLT parameters
+    params.lambda = 1;                  % maximum bidirectional error
+    params.num_pyr_levels = 5;
+    params.bl_size = [31, 31];
+    params.max_its = 32;
+
+    % P3P parameters
+    params.max_num_trials = 32000;
+    params.conf = 99.9;
+    params.max_repr_err = 0.8;
 end
 
 end
