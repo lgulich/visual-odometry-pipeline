@@ -26,11 +26,13 @@ params.bootstrap_frames = [1, 2];   % overriden for all datasets
 
 % keypoint detection and maching
 params.keypoint_type = 'harris';
-params.n_keypoints = 1000;
+params.feature_quality = 1e-4;
+params.n_keypoints = 200;
 params.descriptor_size = 11;        % has to be odd
 assert(mod(params.descriptor_size, 2)==1)
 
 params.matching_mode = 'patch_matching'; %'patch_matching' or 'klt'
+
 
 %% Dataset specific parameters
 % params for KITTI
@@ -53,6 +55,9 @@ if strcmp(dataset, 'kitti')
     params.conf = 99.9;
     params.max_repr_err = 0.8;
     
+    % triangulation of new landmarks parameters
+    params.strong_to_uniform_kp_ratio = 0.5;
+    
 % params for MALAGA
 elseif strcmp(dataset, 'malaga')
     params.bootstrap_frames = [1,3];
@@ -72,6 +77,9 @@ elseif strcmp(dataset, 'malaga')
     params.max_num_trials = 32000;
     params.conf = 99.9;
     params.max_repr_err = 0.8;
+       
+    % triangulation of new landmarks parameters
+    params.strong_to_uniform_kp_ratio = 0.5;
 
 % params for PARKING
 elseif strcmp(dataset, 'parking')
@@ -93,6 +101,9 @@ elseif strcmp(dataset, 'parking')
     params.conf = 99.9;
     params.max_repr_err = 0.8;
     
+    % triangulation of new landmarks parameters
+    params.strong_to_uniform_kp_ratio = 0.5;
+    
 % params for ASCENTO
 elseif strcmp(dataset, 'ascento')
     params.bootstrap_frames = [1,5];
@@ -110,8 +121,11 @@ elseif strcmp(dataset, 'ascento')
 
     % P3P parameters
     params.max_num_trials = 32000;
-    params.conf = 99.9;
+    params.conf = 85.0;
     params.max_repr_err = 0.8;
+    
+    % triangulation of new landmarks parameters
+    params.strong_to_uniform_kp_ratio = 0.5;
 end
 
 end

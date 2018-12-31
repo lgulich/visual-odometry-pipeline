@@ -6,6 +6,7 @@ rng(1) % set seed for repeatable results
 
 %% Setup
 ds = 3; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
+
 datasets={'kitti', 'malaga', 'parking', 'ascento'};
 ground_truth = [];
 
