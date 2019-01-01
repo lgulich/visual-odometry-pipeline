@@ -5,7 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 3; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
+ds = 2; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
 
 datasets={'kitti', 'malaga', 'parking', 'ascento'};
 ground_truth = [];
@@ -99,7 +99,7 @@ else
 end
 
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
-
+init_pose
 %% Initialize plot
 num_tracked_landmarks_all = [zeros(1,18), size(init_landmarks,2), ...
                                 zeros(1,last_frame-bootstrap_frames(2))];
