@@ -196,7 +196,7 @@ for i = range
             % plot vo, wo and W robot poses
             if(~mod(i,15))
                 %   patch_bool = plotRobotPose(robot_pose_vo_curr, 'c', image, patch_bool));
-                patch_bool = plotRobotPose(robot_pose_wo_curr, 'b', image, patch_bool);
+                patch_bool = plotRobotPose(robot_pose_wo_curr, 'r', image, patch_bool);
                 %   patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, patch_bool));
             end
             

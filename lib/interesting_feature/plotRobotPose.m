@@ -11,7 +11,6 @@ function patch_out = plotRobotPose(r_p,color,image,patch_in)
 % plot a 3d world with a robot model inside and the corresponding image
 % below
 
-
 % set figure (figure 1 is the vo plot)
 figure(2);
 
@@ -24,18 +23,18 @@ drawnow;
 subplot(2,1,1)
 
 % set up plot
-map_size = 0; % 0: for whole map, number: for rectangle scale
+map_size = 1; % 0: for whole map, number: for rectangle scale
 grid on
 axis equal
 axis manual
 hold on
 if map_size ==  0
     xlim([-1,20]);
-    ylim([-0.5,1.5]);
+    ylim([-1.5,0.1]);
     zlim([-1,20]);
 else
     xlim([-map_size,map_size]);
-    ylim([-0.5,1.5]);
+    ylim([-1.5,0.1]);
     zlim([-map_size,map_size]);
 end
 xlabel('x');
@@ -45,7 +44,7 @@ view(0,-50);
 
 % plot floor if it's the first time
 if patch_in == true
-    patch([-50 50 50 -50], [0 0 0 0], [-50 -50 50 50], [0.1 0.1 0.1 0.1]);
+    patch([-50 50 50 -50], [0 0 0 0], [-50 -50 50 50], 'black','FaceAlpha',0.5);
 end
 patch_out = false;
 
@@ -55,24 +54,21 @@ w_d = 0.1625; % wheel distance to center axis
 
 % calculate and plot ground point
 gp = [r_p(1); 0; r_p(2)];
-plot3(gp(1), gp(2), gp(3), [color, 'x']);
+plot3(gp(1), gp(2), gp(3), ['w', 'x'], 'MarkerSize', 2);
 
-% calculate and plot midpoint between the wheels
+% calculate midpoint between the wheels
 mp = gp + [0; -w_r; 0];
-plot3(mp(1), mp(2), mp(3), [color, 'o']);
 
-% calculate and plot midpoints of the wheels
+% calculate midpoints of the wheels
 lw_mp = mp + w_d*[cos(r_p(3)); 0; sin(r_p(3))];
 rw_mp = mp - w_d*[cos(r_p(3)); 0; sin(r_p(3))];
-plot3([lw_mp(1); rw_mp(1)], [lw_mp(2); rw_mp(2)],...
-    [lw_mp(3); rw_mp(3)], color);
 
 % calculate and plot wheels
 theta = [(0:0.1:2*pi), 0];
 rw_t = rw_mp + w_r*([0;-1; 0]*cos(theta)+[-sin(r_p(3)); 0; cos(r_p(3))]*sin(theta)); % tire
 lw_t = lw_mp + w_r*([0;-1; 0]*cos(theta)+[-sin(r_p(3)); 0; cos(r_p(3))]*sin(theta)); % tire
-plot3(rw_t(1,:).', rw_t(2,:).', rw_t(3,:).',color);
-plot3(lw_t(1,:).', lw_t(2,:).', lw_t(3,:).',color);
+plot3(rw_t(1,:).', rw_t(2,:).', rw_t(3,:).',color, 'LineWidth', 2);
+plot3(lw_t(1,:).', lw_t(2,:).', lw_t(3,:).',color, 'LineWidth', 2);
 
 % specify default camera translation and rotation
 cam_t = [133.1203e-3; -0.2500e-3; 381.9169e-3];
@@ -88,6 +84,10 @@ R_cam = rotx(rad2deg(r_p(4)))*roty(rad2deg(r_p(3)))*cam_R;
 % plot camera
 cam = plotCamera('Location',t_cam,'Orientation',R_cam,'Size',0.05,'Color',color);
 plot3(t_cam(1), t_cam(2), t_cam(3), [color, 'o']);
+plot3([lw_mp(1); t_cam(1)], [lw_mp(2); t_cam(2)],...
+    [lw_mp(3); t_cam(3)], color, 'LineWidth', 2);
+plot3([rw_mp(1); t_cam(1)], [rw_mp(2); t_cam(2)],...
+    [rw_mp(3); t_cam(3)], color, 'LineWidth', 2);
 
 % show everything
 drawnow;
