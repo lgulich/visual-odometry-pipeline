@@ -1,6 +1,8 @@
 %% Clear Workspace
-clear 
-close all
+clear
+% TODO VK
+% close all
+% TODO VK
 clc
 rng(1) % set seed for repeatable results
 
@@ -101,6 +103,7 @@ end
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
 
 %% Initialize plot
+figure(1);
 num_tracked_landmarks_all = [zeros(1,18), size(init_landmarks,2), ...
                                 zeros(1,last_frame-bootstrap_frames(2))];
 
@@ -120,13 +123,13 @@ last20FramesIdx = 1:20;
 %% Continuous operation
 
 fprintf('\n Press any key to start the continous operation...');
-pause; % TODO remove before hand-in
+% pause; % TODO remove before hand-in
 
 % Setup
 range = (bootstrap_frames(2)+1):last_frame;
 prev_img = img1;
 prev_state = initializeState(init_keypoints, init_landmarks);
-
+    
 % Process frames
 for i = range
     fprintf('\n\nProcessing frame %d\n=====================\n', i);
@@ -149,11 +152,54 @@ for i = range
         error('dataset not found');
 
     end
-
+    
     % Update state and camera pose
     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
+    
+    WO = 0;
+    
+    if i > range(1) && ds == 3 && WO == 1
+            d_robot_pose_cam = getGroundCamTranslation(T_W_C_curr, theta_curr, T_W_C_last, theta_last);
+            d_robot_pose_we = getGroundWETranslation(we_meas_left, we_meas_right, theta);
 
+            [d_robot_pose_W, kalman_state] = estimate_d_robot_pose_W(d_robot_pose_cam, d_robot_pose_we, kalman_state);
+
+            robot_pose_cam_last = robot_pose_cam_curr;
+            robot_pose_cam_curr = integrate_robot_pose(d_robot_pose_cam, robot_pose_cam_last);
+
+            robot_pose_we_last = robot_pose_we_curr;
+            robot_pose_we_curr = integrate_robot_pose(d_robot_pose_we, robot_pose_we_last);
+
+            robot_pose_W_last = robot_pose_W_curr;
+            robot_pose_W_curr = integrate_robot_pose(d_robot_pose_W, robot_pose_W_last);
+
+            
+            figure(2);
+                clf;
+                grid on
+                axis equal
+                axis manual
+                hold on
+                xlim([-15,15]);
+                ylim([-15,15]);
+                zlim([-15,25]);
+                xlabel('x');
+                ylabel('y');
+                zlabel('z');
+                view(0,0)
+            plot_robot_pose(robot_pose_cam_curr, 'c');
+            plot_robot_pose(robot_pose_we_curr, 'b');
+            plot_robot_pose(robot_pose_W_curr, 'r');
+
+
+            T_W_C_last = T_W_C_curr;
+            
+
+    end
+    
+    
     % Plot
+    figure(1);
     [last20FramesIdx, ...
      num_tracked_landmarks_all, t_W_C_all, trackedLandmarksOverLast20Frames] = ...
                                 plotVO( curr_state, T_W_C_curr, image, ...
