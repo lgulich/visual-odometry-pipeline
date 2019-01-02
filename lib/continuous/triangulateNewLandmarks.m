@@ -50,11 +50,20 @@ end
 
 % Detect N new Harris corners, where N is arbitrarily defined as the
 % difference between a certain number of desired keypoints and the sum of
-% the existing keypoints and the candidate ones 
+% the existing keypoints and the candidate ones. 
+% 1. First we detect any Harris keypoints
+% 2. We choose the k strongest keypoints by metric
+% 3. Of the remaining (non-strongest) keypoints we uniformly select N-k
+% keypoints
+% 4. the N new Harris corners are the union of the strongest and uniformly
+% selected keypoints
 num_new_corners = max([params.n_keypoints - length(S_in.P) - length(S_in.C); 1]);
-corners = 	detectHarrisFeatures(I_curr);
-corners = corners.selectStrongest(4*num_new_corners);               % TODO
-corners = selectUniform(corners, num_new_corners, size(I_curr));    % TODO
+corners = detectHarrisFeatures(I_curr, 'MinQuality', params.feature_quality);
+strongest_corners = corners.selectStrongest(round(params.strong_to_uniform_kp_ratio*num_new_corners));
+[a, is_not_in_strong] = setdiff(corners.Location(:,1)*size(I_curr, 2)+corners.Location(:,2), strongest_corners.Location(:,1)*size(I_curr, 2)+strongest_corners.Location(:,2));
+uniform_corners = selectUniform(corners(is_not_in_strong), num_new_corners-size(strongest_corners, 1), size(I_curr));    % TODO
+
+corners = [strongest_corners; uniform_corners];
 corners = corners.Location.';
 
 % Update the state sets C^i, F^i and T^i such that the new candidate 
