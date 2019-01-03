@@ -1,7 +1,15 @@
-function [outputArg1,outputArg2] = untitled(inputArg1,inputArg2)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
-end
+function  []= record()
 
+
+ writerObj = VideoWriter('');
+ writerObj.FrameRate = 60;
+ open(writerObj);
+
+ axis tight
+
+ for k = 1:20 
+   frame = getframe;
+   writeVideo(writerObj,frame);
+ end
+ close(writerObj);
+ 

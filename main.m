@@ -166,4 +166,10 @@ for i = range
 
     prev_img = image;
     prev_state = curr_state;
+    
+
+fname = 'plotFrames';
+filename = sprintf('fig%04d',i-3);
+saveas(gcf, fullfile(fname, filename), 'jpeg');
+
 end
