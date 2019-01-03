@@ -118,11 +118,11 @@ elseif strcmp(dataset, 'parking')
 
     % P3P parameters
     params.max_num_trials = 32000;
-    params.conf = 99.943;
+    params.conf = 99.973;
     params.max_repr_err = 0.645;
     
     % triangulation of new landmarks parameters
-    params.strong_to_uniform_kp_ratio = 0.13;
+    params.strong_to_uniform_kp_ratio = 0.08;
     
 %% params for ASCENTO
 elseif strcmp(dataset, 'ascento')

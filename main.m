@@ -125,7 +125,6 @@ trackedLandmarksOverLast20Frames{end} = init_landmarks([1,3],:);
 last20FramesIdx = 1:20;
 
 %% Continuous operation
-
 fprintf('\n Press any key to start the continous operation...');
 pause; % TODO remove before hand-in
 
