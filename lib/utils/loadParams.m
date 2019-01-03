@@ -111,7 +111,7 @@ elseif strcmp(dataset, 'parking')
                                         % candidate keypoints
 
     % KLT parameters
-    params.lambda = 1;                  % maximum bidirectional error
+    params.lambda = 0.4;                  % maximum bidirectional error
     params.num_pyr_levels = 5;
     params.bl_size = [31, 31];
     params.max_its = 32;
@@ -122,7 +122,7 @@ elseif strcmp(dataset, 'parking')
     params.max_repr_err = 0.645;
     
     % triangulation of new landmarks parameters
-    params.strong_to_uniform_kp_ratio = 0.08;
+    params.strong_to_uniform_kp_ratio = 0.17;
     
 %% params for ASCENTO
 elseif strcmp(dataset, 'ascento')
