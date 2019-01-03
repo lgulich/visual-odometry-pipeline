@@ -98,8 +98,15 @@ else
 
 end
 
+% If empty, set default rectangular region dimensions for detecting the 
+% Harris corners 
+if isempty(params.ROI)
+    params.ROI = [1, 1, size(img0,2), size(img0,1)];
+end
+
+% Calculate initial pose, keypoints and landmarks
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
-init_pose
+
 %% Initialize plot
 num_tracked_landmarks_all = [zeros(1,18), size(init_landmarks,2), ...
                                 zeros(1,last_frame-bootstrap_frames(2))];
@@ -118,7 +125,6 @@ trackedLandmarksOverLast20Frames{end} = init_landmarks([1,3],:);
 last20FramesIdx = 1:20;
 
 %% Continuous operation
-
 fprintf('\n Press any key to start the continous operation...');
 pause; % TODO remove before hand-in
 
@@ -149,7 +155,7 @@ for i = range
         error('dataset not found');
 
     end
-
+    
     % Update state and camera pose
     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
 
