@@ -5,8 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 2; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
-
+ds = 0; % 0: KITTI, 1: Malaga, 2: parking, 3: ascento
 datasets={'kitti', 'malaga', 'parking', 'ascento'};
 ground_truth = [];
 
@@ -17,6 +16,7 @@ kitti_path = params.kitti_path;
 malaga_path = params.malaga_path;
 parking_path = params.parking_path;
 ascento_path = params.ascento_path;
+
 
 if ds == 0
     % need to set kitti_path to folder containing "00" and "poses"
@@ -51,12 +51,12 @@ elseif ds == 2
 elseif ds == 3
     % Path containing images, depths and all...
     assert(exist('ascento_path', 'var') ~= 0);
-    last_frame = 1000;
+    last_frame = 200;
     K = load([ascento_path '/K.txt']);
     load([ascento_path '/est_states.mat']);
 
 else
-    error('dataset not found');
+    assert(false);
 
 end
 
@@ -89,17 +89,17 @@ elseif ds == 2
 
 elseif ds == 3
     img0 = imread([ascento_path ...
-        sprintf('/images_rect/img_%05d.png',bootstrap_frames(1))]);
+        sprintf('/images/img_%05d.png',bootstrap_frames(1))]);
     img1 = imread([ascento_path ...
-        sprintf('/images_rect/img_%05d.png',bootstrap_frames(2))]);
+        sprintf('/images/img_%05d.png',bootstrap_frames(2))]);
 
 else
-    error('dataset not found');
+    assert(false);
 
 end
 
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
-init_pose
+
 %% Initialize plot
 num_tracked_landmarks_all = [zeros(1,18), size(init_landmarks,2), ...
                                 zeros(1,last_frame-bootstrap_frames(2))];
@@ -143,10 +143,10 @@ for i = range
 
     elseif ds == 3
         image = im2uint8(imread([ascento_path ...
-            sprintf('/images_rect/img_%05d.png',i)]));
+            sprintf('/images/img_%05d.png',i)]));
 
     else
-        error('dataset not found');
+        assert(false);
 
     end
 
@@ -167,5 +167,9 @@ for i = range
     prev_img = image;
     prev_state = curr_state;
     
-    saveas(fig,'plotFrames/image%d04.jpg',k)
+
+fname = 'plotFrames';
+filename = sprintf('fig%04d',i-3);
+saveas(gcf, fullfile(fname, filename), 'jpeg');
+
 end

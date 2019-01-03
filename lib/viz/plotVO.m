@@ -68,12 +68,12 @@ plot(t_W_C_all(1,last20FramesIdx), t_W_C_all(2,last20FramesIdx),'b-o',...
         mask = x_mask & y_mask & z_mask;
         
        plot(curr_state.X(1, mask), curr_state.X(3, mask), 'ks', 'MarkerSize', 6,...
-    'MarkerFaceColor',[0,0,0]);grid off, axis equal, hold on
-plot(landmarks(1,:), landmarks(2,:), 'kx', 'MarkerSize', 3.2, 'Color', [0.88,0.88,0.88]), hold on
-
-hold off
-
-title('Trajectory of last 20 frames and landmarks.')
+    'MarkerFaceColor',[0,0,0]);grid off, axis equal, hold off
+% plot(landmarks(1,:), landmarks(2,:), 'kx', 'MarkerSize', 3.2, 'Color', [0.88,0.88,0.88]), hold on
+% 
+% hold off
+% 
+% title('Trajectory of last 20 frames and landmarks.')
 set(gcf, 'GraphicsSmoothing', 'on')
 
 axis equal
@@ -81,4 +81,17 @@ axis equal
 % Update indexes
 last20FramesIdx_next = last20FramesIdx + 1;
 
+
+%  writerObj = VideoWriter('example.avi');
+%  writerObj.FrameRate = 60;
+%  open(writerObj);
+% 
+%  for k = 1:20 
+%   
+%    frame = getframe;
+%    writeVideo(writerObj,frame);
+%  end
+%  close(writerObj);
+% 
 end
+
