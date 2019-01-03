@@ -163,13 +163,13 @@ for i = range
     
     % Make sure that plots refresh
     pause(0.01);
-
+ 
     prev_img = image;
     prev_state = curr_state;
     
-
-fname = 'plotFrames';
-filename = sprintf('fig%04d',i-3);
-saveas(gcf, fullfile(fname, filename), 'jpeg');
+    %save frames (comment if not used)
+    fname = 'plotFrames';
+    filename = sprintf('fig%04d',i-3);
+    saveas(gcf, fullfile(fname, filename), 'jpeg');
 
 end

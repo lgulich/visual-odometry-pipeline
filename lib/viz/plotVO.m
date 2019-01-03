@@ -73,7 +73,7 @@ plot(t_W_C_all(1,last20FramesIdx), t_W_C_all(2,last20FramesIdx),'b-o',...
 % 
 % hold off
 % 
-% title('Trajectory of last 20 frames and landmarks.')
+ title('Trajectory of last 20 frames and landmarks.')
 set(gcf, 'GraphicsSmoothing', 'on')
 
 axis equal
@@ -82,16 +82,5 @@ axis equal
 last20FramesIdx_next = last20FramesIdx + 1;
 
 
-%  writerObj = VideoWriter('example.avi');
-%  writerObj.FrameRate = 60;
-%  open(writerObj);
-% 
-%  for k = 1:20 
-%   
-%    frame = getframe;
-%    writeVideo(writerObj,frame);
-%  end
-%  close(writerObj);
-% 
 end
 
