@@ -160,7 +160,7 @@ for i = range
     end
     
     % Update state and camera pose
-    %     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
+%     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
     %TODO VK
     curr_state = prev_state;
     T_W_C_curr = zeros(3,4);
@@ -169,6 +169,7 @@ for i = range
         if i > range(1)
             
             % update vo state
+            robot_pose_vo_curr = tf2RobotPose(T_W_C_curr, theta_curr);
             
             % update wo state
             x_curr = double((-ascento_est_states{i*20-2}.EstRobotYPos) - x_initial);
@@ -181,32 +182,33 @@ for i = range
             robot_pose_wo_curr(3) = gamma_curr;
             robot_pose_wo_curr(4) = theta_curr;
             
+            % get translation vector from vo
+            d_robot_pose_vo = robot_pose_vo_curr - robot_pose_vo_last;
+            
             % get translation vector from wo
             d_robot_pose_wo = robot_pose_wo_curr - robot_pose_wo_last;
             
-            % get translation vector from vo
-            % d_robot_pose_vo = robot_pose_vo_curr - robot_pose_vo_last;
-            
-            % Todo VK
-            d_robot_pose_vo(1) = d_robot_pose_wo(1)*(1-i/1000);% + rand(1)*0.4-0.2;
-            d_robot_pose_vo(2) = d_robot_pose_wo(2)*(1-i/1000);% + rand(1)*0.4-0.2;
-            d_robot_pose_vo(3) = d_robot_pose_wo(3);% + rand(1)*0.4-0.2;
+            % Todo VK (simulates scale drift)
+            d_robot_pose_vo(1) = d_robot_pose_wo(1)*(1-i/1000);
+            d_robot_pose_vo(2) = d_robot_pose_wo(2)*(1-i/1000);
+            d_robot_pose_vo(3) = d_robot_pose_wo(3);
             d_robot_pose_vo(4) = d_robot_pose_wo(4);
             
             % combine translation vectors
-            [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, kalman_state);
+            [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state);
             
             % update W state
             robot_pose_W_curr = integrateRobotPose(robot_pose_W_last, d_robot_pose_W, theta_curr);
             
-            %TODO VK
+            %TODO VK remove
             robot_pose_vo_curr = integrateRobotPose(robot_pose_vo_last, d_robot_pose_vo, theta_curr);
             
             % plot vo, wo and W robot poses
             if(~mod(i,15))
-                patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, -2, patch_bool);
+                patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, -1.8, patch_bool);
                 patch_bool = plotRobotPose(robot_pose_vo_curr, 'b', image, 0, patch_bool);
                 patch_bool = plotRobotPose(robot_pose_wo_curr, 'c', image, 0, patch_bool);
+%                 plotCamera('Location',T_W_C_curr(1:3,4)-T_W_C_init(1:3,4),'Orientation',T_W_C_curr(1:3,1:3),'Size',0.05,'Color','k');
             end
             
             % update vo iterators
@@ -235,7 +237,7 @@ for i = range
             
             % initialialize vo iterators
             theta_last = double(ascento_est_states{i*20-2}.EstThetaMean);
-            T_W_C_last = T_W_C_curr;
+            T_W_C_init = T_W_C_curr;
             
             robot_pose_vo_last(1)= 0.0;
             robot_pose_vo_last(2)= 0.0;

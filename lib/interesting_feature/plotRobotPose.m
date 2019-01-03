@@ -119,7 +119,7 @@ t_cam = gp + roty(-rad2deg(r_p(3)))*rotx(-rad2deg(r_p(4)))*con_adj_t*cam_t;
 R_cam = rotx(rad2deg(r_p(4)))*roty(rad2deg(r_p(3)))*cam_R;
 
 % plot camera
-cam = plotCamera('Location',t_cam,'Orientation',R_cam,'Size',0.05,'Color',color);
+plotCamera('Location',t_cam,'Orientation',R_cam,'Size',0.05,'Color',color);
 % plot3(t_cam(1), t_cam(2), t_cam(3), [color, 'o']);
 plot3([lw_mp(1); t_cam(1)], [lw_mp(2); t_cam(2)],...
     [lw_mp(3); t_cam(3)], color, 'LineWidth', 2);

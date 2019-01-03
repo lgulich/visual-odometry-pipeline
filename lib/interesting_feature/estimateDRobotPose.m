@@ -1,10 +1,11 @@
-function [d_robot_pose_W, kalman_state_curr] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, kalman_state_prev);
+function [d_robot_pose_W, kalman_state_curr] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state_prev);
 % Estimate the current robot pose difference
 %
 %   :param d_robot_pose_vo: vector, robot pose of the last timestep based
 %   on visual odometry
 %   :param d_robot_pose_wo: vector, robot pose of the last timestep based
 %   on wheel odometry
+%   :param theta_curr: the current tilt angle
 %   :param kalman_state_prev: struct, the previous kalman state, containing the
 %   previous state vector and variance matrix
 %
@@ -66,7 +67,7 @@ kalman_state_curr.P = P_m;
 
 %% assemble the world robot pose
 d_robot_pose_W = [kalman_state_curr.X(1); kalman_state_curr.X(2); ...
-                   kalman_state_curr.X(3); d_robot_pose_wo(4)];
+                   kalman_state_curr.X(3); theta_curr];
 
 end
 
