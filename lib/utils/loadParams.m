@@ -23,6 +23,9 @@ params.ascento_path = 'data/ascento';
 
 %% Initialization parameters
 params.bootstrap_frames = [1, 2];   % overriden for all datasets
+params.ROI = [];                    % overriden for all datasets
+params.uniq = false;
+params.max_ratio = 0.5;     
 
 % keypoint detection and maching
 params.keypoint_type = 'harris';
@@ -92,10 +95,15 @@ elseif strcmp(dataset, 'malaga')
 elseif strcmp(dataset, 'parking')
     params.bootstrap_frames = [1,5];
     
+    % Matching keypoints
+    params.n_keypoints = 200;
+    params.uniq = true;
+    params.max_ratio = 0.9;
+    
     % 8 point algorithm
     params.eightp_num_trials = 32000;
     params.eightp_dist_threshold = 0.0001;
-    params.eightp_confidence = 85;
+    params.eightp_confidence = 81;
     
     % Continuous operation parameters
     params.min_angle = 2;               % minimum angle for triangulating
@@ -110,15 +118,19 @@ elseif strcmp(dataset, 'parking')
 
     % P3P parameters
     params.max_num_trials = 32000;
-    params.conf = 99.9;
-    params.max_repr_err = 0.8;
+    params.conf = 99.943;
+    params.max_repr_err = 0.645;
     
     % triangulation of new landmarks parameters
-    params.strong_to_uniform_kp_ratio = 0.5;
+    params.strong_to_uniform_kp_ratio = 0.13;
     
 %% params for ASCENTO
 elseif strcmp(dataset, 'ascento')
     params.bootstrap_frames = [1,5];
+    
+    % Rectangular region for detecting Harris corners
+    params.ROI = [62.5 81.5 618 329];        % larger       
+%     params.ROI = [92.5 99.5 571 293];        % smaller
     
     % 8 point algorithm
     params.eightp_num_trials = 32000;

@@ -98,8 +98,15 @@ else
 
 end
 
+% If empty, set default rectangular region dimensions for detecting the 
+% Harris corners 
+if isempty(params.ROI)
+    params.ROI = [1, 1, size(img0,2), size(img0,1)];
+end
+
+% Calculate initial pose, keypoints and landmarks
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
-init_pose
+
 %% Initialize plot
 num_tracked_landmarks_all = [zeros(1,18), size(init_landmarks,2), ...
                                 zeros(1,last_frame-bootstrap_frames(2))];
