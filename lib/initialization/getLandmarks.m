@@ -2,15 +2,15 @@ function [landmarks] = getLandmarks(matched_kp_1, matched_kp_2, pose, params)
 % Triangulate the 2d keypoints from two images to obtain a 3d pointcloud
 %
 %   :param matched_kp_1: class cornerPoint, the matching keypoints from the
-%   first image
+%       first image
 %   :param matched_kp_2: class cornerPoint, the matching keypoints from the
-%   second image
+%       second image
 %   :param pose: 4x4 matrix, the homogenous transformation of the camera
-%   position between the first and second image
+%       position between the first and second image
 %   :param params: struct, the parameter struct
 %
 %   :return landmarks: 3xN matrix, 3d-position of the keypoints in the
-%   worldframe
+%       worldframe
 
 assert((size(pose, 1))==4);
 assert((size(pose, 2))==4);
@@ -26,6 +26,8 @@ cam_matrix_2 = cameraMatrix(params.cam, R, t);
 
 % Compute the 3-D points
 landmarks = triangulate(matched_kp_1, matched_kp_2, cam_matrix_1, cam_matrix_2);
+
+% transpose landmarks to convention
 landmarks = landmarks';
 
 end
