@@ -15,13 +15,12 @@ function [d_robot_pose_W, kalman_state_curr] = estimateDRobotPose(d_robot_pose_v
 % Fuzes the estimates of the robot pose difference from visual and wheel
 % odometry and estimates the scale drift factor
 
-% estimate the current kalman state
 %% define quantities
 X = kalman_state_prev.X;
-x = X(1);
-z = X(2);
-gamma = X(3);
-beta = X(4);
+% x = X(1); for reference
+% z = X(2); for reference
+% gamma = X(3); for reference
+% beta = X(4); for reference
 
 Z = [d_robot_pose_vo(1:3).'; d_robot_pose_wo(1:3).'];
 
@@ -58,8 +57,8 @@ M = diag([beta_p beta_p 1 1 1 1]);
 K = P_p*H.'/(H*P_p*H.' + M*R*M.');
 h = [beta_p*x_p; beta_p*z_p; gamma_p; x_p; z_p; gamma_p];
 
-X_m = X_p + K*(Z-h)
-P_m = (eye(size(K*H))-K*H)*P_p;
+X_m = X_p + K*(Z-h) % TODO VK
+P_m = (eye(4)-K*H)*P_p;
 
 %% write new kalman state
 kalman_state_curr.X = X_m;
