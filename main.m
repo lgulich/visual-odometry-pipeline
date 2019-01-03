@@ -184,14 +184,13 @@ for i = range
             % get translation vector from wo
             d_robot_pose_wo = robot_pose_wo_curr - robot_pose_wo_last;
             
-                 
             % get translation vector from vo
             % d_robot_pose_vo = robot_pose_vo_curr - robot_pose_vo_last;
             
             % Todo VK
-            d_robot_pose_vo(1) = d_robot_pose_wo(1) + rand(1)*0.4-0.2;
-            d_robot_pose_vo(2) = d_robot_pose_wo(2) + rand(1)*0.4-0.2;
-            d_robot_pose_vo(3) = d_robot_pose_wo(3) + rand(1)*0.4-0.2;
+            d_robot_pose_vo(1) = d_robot_pose_wo(1)*(1-i/1000);% + rand(1)*0.4-0.2;
+            d_robot_pose_vo(2) = d_robot_pose_wo(2)*(1-i/1000);% + rand(1)*0.4-0.2;
+            d_robot_pose_vo(3) = d_robot_pose_wo(3);% + rand(1)*0.4-0.2;
             d_robot_pose_vo(4) = d_robot_pose_wo(4);
             
             % combine translation vectors
@@ -224,7 +223,7 @@ for i = range
             % initialize global quantities
             patch_bool = true; 
             kalman_state.X = [0.0; 0.0; 0.0; 1.0];
-            kalman_state.P = diag([0.0; 0.0; 0.0; 0.5]);
+            kalman_state.P = diag([0.0; 0.0; 0.0; 0.5].^2);
             
             % initialize W iterators
             theta_last = double(ascento_est_states{i*20-2}.EstThetaMean);
