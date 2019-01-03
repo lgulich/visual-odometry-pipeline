@@ -1,8 +1,3 @@
-
-
-
-
-
 workingDir = 'plotFrames'
 imageNames = dir(fullfile('plotFrames','*.jpg'));
 imageNames = {imageNames.name}';
