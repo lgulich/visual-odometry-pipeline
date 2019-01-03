@@ -155,7 +155,7 @@ for i = range
         error('dataset not found');
 
     end
-
+    
     % Update state and camera pose
     [curr_state, T_W_C_curr] = processFrame(image, prev_img, prev_state, params);
 
