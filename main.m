@@ -166,4 +166,6 @@ for i = range
 
     prev_img = image;
     prev_state = curr_state;
+    
+    saveas(fig,'plotFrames/image%d04.jpg',k)
 end
