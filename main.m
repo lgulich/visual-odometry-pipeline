@@ -181,35 +181,50 @@ for i = range
             robot_pose_wo_curr(3) = gamma_curr;
             robot_pose_wo_curr(4) = theta_curr;
             
-            % get translation vector from vo
-            % d_robot_pose_vo = robot_pose_vo_curr - robot_pose_vo_last;
-            
             % get translation vector from wo
             d_robot_pose_wo = robot_pose_wo_curr - robot_pose_wo_last;
             
+                 
+            % get translation vector from vo
+            % d_robot_pose_vo = robot_pose_vo_curr - robot_pose_vo_last;
+            
+            % Todo VK
+            d_robot_pose_vo(1) = d_robot_pose_wo(1) + rand(1)*0.4-0.2;
+            d_robot_pose_vo(2) = d_robot_pose_wo(2) + rand(1)*0.4-0.2;
+            d_robot_pose_vo(3) = d_robot_pose_wo(3) + rand(1)*0.4-0.2;
+            d_robot_pose_vo(4) = d_robot_pose_wo(4);
+            
             % combine translation vectors
-            % [d_robot_pose_W, kalman_state] = estimate_d_robot_pose_W(d_robot_pose_vo, d_robot_pose_wo, kalman_state);
+            [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, kalman_state);
             
             % update W state
-            % robot_pose_W_curr = integrateRobotPose(robot_pose_W_last, d_robot_pose_W, theta_curr);
+            robot_pose_W_curr = integrateRobotPose(robot_pose_W_last, d_robot_pose_W, theta_curr);
+            
+            %TODO VK
+            robot_pose_vo_curr = integrateRobotPose(robot_pose_vo_last, d_robot_pose_vo, theta_curr);
             
             % plot vo, wo and W robot poses
             if(~mod(i,15))
-                %   patch_bool = plotRobotPose(robot_pose_vo_curr, 'c', image, patch_bool));
-                patch_bool = plotRobotPose(robot_pose_wo_curr, 'r', image, patch_bool);
-                %   patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, patch_bool));
+                patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, -2, patch_bool);
+                patch_bool = plotRobotPose(robot_pose_vo_curr, 'b', image, 0, patch_bool);
+                patch_bool = plotRobotPose(robot_pose_wo_curr, 'c', image, 0, patch_bool);
             end
             
             % update vo iterators
-            %             robot_pose_vo_last = robot_pose_vo_curr;
+            robot_pose_vo_last = robot_pose_vo_curr;
             
             % update wo iterators
             robot_pose_wo_last = robot_pose_wo_curr;
             
             % update W iterators
-            %             robot_pose_W_last = robot_pose_W_curr;
+            robot_pose_W_last = robot_pose_W_curr;
             
         elseif i == range(1)
+            
+            % initialize global quantities
+            patch_bool = true; 
+            kalman_state.X = [0.0; 0.0; 0.0; 1.0];
+            kalman_state.P = diag([0.0; 0.0; 0.0; 0.5]);
             
             % initialize W iterators
             theta_last = double(ascento_est_states{i*20-2}.EstThetaMean);
@@ -237,9 +252,6 @@ for i = range
             x_initial = double(-ascento_est_states{range(1)*20-2}.EstRobotYPos);
             z_initial = double(ascento_est_states{range(1)*20-2}.EstRobotXPos);
             gamma_initial = double(ascento_est_states{range(1)*20-2}.EstRobotGammaOrient);
-            
-            % initialize plot
-            patch_bool = true; 
             
         end
     end
