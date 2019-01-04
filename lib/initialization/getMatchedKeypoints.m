@@ -14,9 +14,7 @@ function [matched_kp_1, matched_kp_2] = getMatchedKeypoints(des_1, des_2, kp_1, 
 
 if strcmp(params.matching_mode, 'patch_matching')
     % match features between descriptors
-    index_pairs = matchFeatures(des_1, des_2, ...
-                                'Unique', params.uniq, ...
-                                'MaxRatio', params.max_ratio);
+    index_pairs = matchFeatures(des_1, des_2);
 
     % get the valid keypoints from matches
     matched_kp_1 = kp_1(index_pairs(:,1),:);

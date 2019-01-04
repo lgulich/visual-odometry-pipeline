@@ -58,9 +58,7 @@ end
 % 4. the N new Harris corners are the union of the strongest and uniformly
 % selected keypoints
 num_new_corners = max([params.n_keypoints - length(S_in.P) - length(S_in.C); 1]);
-corners = detectHarrisFeatures(I_curr, ...
-                               'MinQuality', params.feature_quality, ...
-                               'ROI', params.ROI);
+corners = detectHarrisFeatures(I_curr, 'MinQuality', params.feature_quality);
 strongest_corners = corners.selectStrongest(round(params.strong_to_uniform_kp_ratio*num_new_corners));
 [a, is_not_in_strong] = setdiff(corners.Location(:,1)*size(I_curr, 2)+corners.Location(:,2), strongest_corners.Location(:,1)*size(I_curr, 2)+strongest_corners.Location(:,2));
 uniform_corners = selectUniform(corners(is_not_in_strong), num_new_corners-size(strongest_corners, 1), size(I_curr));    % TODO
