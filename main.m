@@ -246,7 +246,7 @@ for i = range
             
             % initialize global quantities
             patch_bool = true; 
-            kalman_state.X = [0.0; 0.0; 0.0; 1; 5];
+            kalman_state.X = [0.0; 0.0; 0.0; 3; 5];
             kalman_state.P = diag([0.0; 0.0; 0.0; 0.5; 1].^2);
             
             % initialize W iterators

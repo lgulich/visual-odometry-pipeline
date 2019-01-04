@@ -30,7 +30,7 @@ P = kalman_state_prev.P;
 v_x = 0.2;
 v_z = 0.8;
 Q = diag([0.075; 0.075; 0.1; v_x; v_z].^2);
-R = diag([0.1, 0.1, 0.1, 0.01, 0.01, 0.01].^2);
+R = diag([0.1, 0.1, 0.1, 0.1, 0.1, 0.1].^2);
 
 %% prior update
 % define linearized matrices
