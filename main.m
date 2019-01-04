@@ -56,7 +56,7 @@ elseif ds == 2
 elseif ds == 3
     % Path containing images, depths and all...
     assert(exist('ascento_path', 'var') ~= 0);
-    last_frame = 999;
+    last_frame = 499;
     K = load([ascento_path '/K.txt']);
     load([ascento_path '/est_states.mat']);
     if af == 1

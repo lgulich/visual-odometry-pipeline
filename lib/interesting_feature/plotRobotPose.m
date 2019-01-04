@@ -26,7 +26,7 @@ drawnow;
 subplot(2,2,2);
 title('Global trajectory');
 
-show_vo_drift = true;
+show_vo_drift = false;
 
 % set up plot
 if map_size == 0
@@ -44,9 +44,9 @@ else
         ylim([-1.5,0.1]);
         zlim([13.4,15]);
     else
-        xlim([-1.5,25]);
+        xlim([-2,17]);
         ylim([-1.5,0.1]);
-        zlim([-1.5,25]);
+        zlim([-2,17]);
     end
     view(0,0);
 end
