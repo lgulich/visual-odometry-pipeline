@@ -7,7 +7,7 @@ function [last20FramesIdx_next, num_tracked_landmarks, t_W_C_all, ...
 curr_frame_idx = last20FramesIdx(end);
 num_tracked_landmarks(curr_frame_idx) = size(curr_state.X,2);
 t_W_C_all(:,curr_frame_idx) = T_W_C_curr([1,3],end);
-trackedLandmarksOverLast20Frames = circshift(trackedLandmarksOverLast20Frames,-1);
+% trackedLandmarksOverLast20Frames = circshift(trackedLandmarksOverLast20Frames,-1);
 trackedLandmarksOverLast20Frames{end} = curr_state.X([1,3],:);
 
 fig = figure(1);
@@ -32,7 +32,7 @@ ylim([0,200])
 % Bottom right
 subplot(4,4,[10,14])
 plot(t_W_C_all(1,1:curr_frame_idx), t_W_C_all(2,1:curr_frame_idx), ...
-    'b-'), grid off, axis equal
+    'b-o', 'MarkerSize', 2.4, 'MarkerFaceColor', 'b'), grid off, axis equal
 title('Full trajectory.')
 set(gcf, 'GraphicsSmoothing', 'on')
 
@@ -42,16 +42,10 @@ landmarks = cell2mat(trackedLandmarksOverLast20Frames);
 landmarks = unique(landmarks.', 'rows').';
 subplot(4,4,[3,4,7,8,11,12,15,16])
 
-% Plot all the landmarks tracked over the last 20 frames
-plot(landmarks(1,:), landmarks(2,:), ...
-    'ks', 'MarkerSize', 3.2, ...
-    'Color', [0.68,0.68,0.68], ...
-    'MarkerFaceColor', [0.68,0.68,0.68]), hold on
-
  % define limits of plot
         xlim('manual');
         ylim('manual');
-%         % radii help scale plot around latest camera pose
+%         
         r_x = 10*abs(max(t_W_C_all(1,last20FramesIdx))-min(t_W_C_all(1,last20FramesIdx)))/2+1;
         r_z = 10*abs(max(t_W_C_all(2,last20FramesIdx))-min(t_W_C_all(2,last20FramesIdx)))/2+1;
         xlim([(t_W_C_all(1,end))-r_x, (t_W_C_all(1,end))+r_x]);
@@ -75,8 +69,11 @@ plot(t_W_C_all(1,last20FramesIdx), t_W_C_all(2,last20FramesIdx),'b-o',...
         
        plot(curr_state.X(1, mask), curr_state.X(3, mask), 'ks', 'MarkerSize', 6,...
     'MarkerFaceColor',[0,0,0]);grid off, axis equal, hold off
-
-title('Trajectory of last 20 frames and landmarks.')
+% plot(landmarks(1,:), landmarks(2,:), 'kx', 'MarkerSize', 3.2, 'Color', [0.88,0.88,0.88]), hold on
+% 
+% hold off
+% 
+ title('Trajectory of last 20 frames and landmarks.')
 set(gcf, 'GraphicsSmoothing', 'on')
 
 axis equal
