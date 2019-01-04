@@ -105,9 +105,15 @@ elseif ds == 3
     
 else
     error('dataset not found');
-    
 end
 
+% If empty, set default rectangular region dimensions for detecting the 
+% Harris corners 
+if isempty(params.ROI)
+    params.ROI = [1, 1, size(img0,2), size(img0,1)];
+end
+
+% Calculate initial pose, keypoints and landmarks
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
 display(init_pose);
 %% Initialize plot
