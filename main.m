@@ -134,6 +134,9 @@ trackedLandmarksOverLast20Frames{end} = init_landmarks([1,3],:);
 last20FramesIdx = 1:20;
 
 %% Continuous operation
+figure(2)
+clf;
+figure(3)
 clf;
 fprintf('\n Press any key to start the continous operation...');
 % pause; % TODO remove before hand-in
@@ -204,18 +207,23 @@ for i = range
             end
             
             % combine translation vectors
-            [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state);
+            [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state, i);
             
             % rectify vo state
-            robot_pose_vo_curr_rec(1) = robot_pose_vo_curr(1)/kalman_state.X(4);
-            robot_pose_vo_curr_rec(2) = robot_pose_vo_curr(2)/kalman_state.X(5);
-            robot_pose_vo_curr_rec(3:4) = robot_pose_vo_curr(3:4);
+%             robot_pose_vo_curr_rec(1) = robot_pose_vo_curr(1)/kalman_state.X(4);
+%             robot_pose_vo_curr_rec(2) = robot_pose_vo_curr(2)/kalman_state.X(5);
+%             robot_pose_vo_curr_rec(3:4) = robot_pose_vo_curr(3:4);
+            d_robot_pose_vo_rec = d_robot_pose_vo./[kalman_state.X(4); kalman_state.X(5); 1; 1].';
+
+
+            % update VO state
+            robot_pose_vo_curr_rec = integrateRobotPose(robot_pose_vo_last_rec, d_robot_pose_vo_rec, theta_curr);
             
             % update W state
             robot_pose_W_curr = integrateRobotPose(robot_pose_W_last, d_robot_pose_W, theta_curr);
             
             % plot vo, wo and W robot poses
-            every = true;
+            every = false;
             if(~mod(i,15+range(2)) || i == range(2) || every)
                 patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, -1.8, patch_bool);
                 patch_bool = plotRobotPose(robot_pose_wo_curr, 'm', image, 0, patch_bool);
@@ -226,6 +234,7 @@ for i = range
             
             % update vo iterators
             robot_pose_vo_last = robot_pose_vo_curr;
+            robot_pose_vo_last_rec = robot_pose_vo_curr_rec;
             
             % update wo iterators
             robot_pose_wo_last = robot_pose_wo_curr;
@@ -237,8 +246,8 @@ for i = range
             
             % initialize global quantities
             patch_bool = true; 
-            kalman_state.X = [0.0; 0.0; 0.0; 2; 2];
-            kalman_state.P = diag([0.0; 0.0; 0.0; 0.1; 0.1].^2);
+            kalman_state.X = [0.0; 0.0; 0.0; 2.3; 2];
+            kalman_state.P = diag([0.0; 0.0; 0.0; 0.5; 0.5].^2);
             
             % initialize W iterators
             theta_last = double(ascento_est_states{i*20-2}.EstThetaMean);
@@ -273,6 +282,8 @@ for i = range
             robot_pose_vo_last(2)= 0.0;
             robot_pose_vo_last(3)= 0.0;
             robot_pose_vo_last(4) = theta_last;
+            
+            robot_pose_vo_last_rec = robot_pose_vo_last;
             
         end
     end

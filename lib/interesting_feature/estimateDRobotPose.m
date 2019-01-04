@@ -1,4 +1,4 @@
-function [d_robot_pose_W, kalman_state_curr] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state_prev);
+function [d_robot_pose_W, kalman_state_curr] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state_prev, i);
 % Estimate the current robot pose difference
 %
 %   :param d_robot_pose_vo: vector, robot pose of the last timestep based
@@ -27,8 +27,9 @@ X = kalman_state_prev.X;
 Z = [d_robot_pose_vo(1:3).'; d_robot_pose_wo(1:3).'];
 
 P = kalman_state_prev.P;
-
-Q = diag([0.075; 0.075; 0.1; 0.2; 0.2].^2);
+v_x = 0.5;
+v_z = 0.1;
+Q = diag([0.075; 0.075; 0.1; v_x; v_z].^2);
 R = diag([0.1, 0.1, 0.1, 0.01, 0.01, 0.01].^2);
 
 %% prior update
@@ -58,7 +59,7 @@ M = diag([beta_p delta_p 1 1 1 1]);
 
 % compute update
 K = P_p*H.'/(H*P_p*H.' + M*R*M.');
-h = [beta_p*x_p; beta_p*z_p; gamma_p; x_p; z_p; gamma_p];
+h = [beta_p*x_p; delta_p*z_p; gamma_p; x_p; z_p; gamma_p];
 
 X_m = X_p + K*(Z-h) % TODO VK
 P_m = (eye(5)-K*H)*P_p;
@@ -66,6 +67,11 @@ P_m = (eye(5)-K*H)*P_p;
 %% write new kalman state
 kalman_state_curr.X = X_m;
 kalman_state_curr.P = P_m;
+
+figure(3)
+hold on
+plot(i, X_m(4), 'bo');
+plot(i, X_m(5), 'ro');
 
 %% assemble the world robot pose
 d_robot_pose_W = [kalman_state_curr.X(1); kalman_state_curr.X(2); ...
