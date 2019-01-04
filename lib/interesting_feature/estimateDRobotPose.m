@@ -27,8 +27,8 @@ X = kalman_state_prev.X;
 Z = [d_robot_pose_vo(1:3).'; d_robot_pose_wo(1:3).'];
 
 P = kalman_state_prev.P;
-v_x = 0.5;
-v_z = 0.1;
+v_x = 0.2;
+v_z = 0.8;
 Q = diag([0.075; 0.075; 0.1; v_x; v_z].^2);
 R = diag([0.1, 0.1, 0.1, 0.01, 0.01, 0.01].^2);
 
@@ -72,6 +72,7 @@ figure(3)
 hold on
 plot(i, X_m(4), 'bo');
 plot(i, X_m(5), 'ro');
+% plot(i, d_robot_pose_vo(1)/d_robot_pose_wo(1), 'mo');
 
 %% assemble the world robot pose
 d_robot_pose_W = [kalman_state_curr.X(1); kalman_state_curr.X(2); ...

@@ -246,8 +246,8 @@ for i = range
             
             % initialize global quantities
             patch_bool = true; 
-            kalman_state.X = [0.0; 0.0; 0.0; 2.3; 2];
-            kalman_state.P = diag([0.0; 0.0; 0.0; 0.5; 0.5].^2);
+            kalman_state.X = [0.0; 0.0; 0.0; 1; 5];
+            kalman_state.P = diag([0.0; 0.0; 0.0; 0.5; 1].^2);
             
             % initialize W iterators
             theta_last = double(ascento_est_states{i*20-2}.EstThetaMean);
