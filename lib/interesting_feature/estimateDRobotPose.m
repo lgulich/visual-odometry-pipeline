@@ -27,9 +27,7 @@ X = kalman_state_prev.X;
 Z = [d_robot_pose_vo(1:3).'; d_robot_pose_wo(1:3).'];
 
 P = kalman_state_prev.P;
-v_x = 0.2;
-v_z = 0.8;
-Q = diag([0.075; 0.075; 0.1; v_x; v_z].^2);
+Q = diag([0.075; 0.075; 0.1; 0.2; 0.8].^2);
 R = diag([0.1, 0.1, 0.1, 0.1, 0.1, 0.1].^2);
 
 %% prior update
@@ -68,6 +66,7 @@ P_m = (eye(5)-K*H)*P_p;
 kalman_state_curr.X = X_m;
 kalman_state_curr.P = P_m;
 
+% plot scale factors
 figure(3)
 hold on
 plot(i, X_m(4), 'bo');

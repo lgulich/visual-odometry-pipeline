@@ -17,14 +17,16 @@ function patch_out = plotRobotPose(r_p,color,image,map_size, patch_in)
 figure(2);
 
 %% plot corresponding image
-% subplot(2,2,[3,4]);
-% imshow(image, 'InitialMagnification', 'fit');
-% title('Image as reference');
-% drawnow;
+subplot(2,2,[3,4]);
+imshow(image, 'InitialMagnification', 'fit');
+title('Image as reference');
+drawnow;
 
 %% plot trajectory
-subplot(2,1,2);
+subplot(2,2,2);
 title('Global trajectory');
+
+show_vo_drift = false;
 
 % set up plot
 if map_size == 0
@@ -37,17 +39,15 @@ else
     ylabel('y');
     zlabel('z');
     view(0,-50);
-    xlim([-1.5,25]);
-    ylim([-1.5,0.1]);
-    zlim([-1.5,25]);
-
-
-% TODO VK
-%     xlim([-0.8,0.6]);
-%     ylim([-1.5,0.1]);
-%     zlim([13.4,15]);
-    
-    
+    if show_vo_drift == true
+        xlim([-0.8,0.6]);
+        ylim([-1.5,0.1]);
+        zlim([13.4,15]);
+    else
+        xlim([-1.5,25]);
+        ylim([-1.5,0.1]);
+        zlim([-1.5,25]);
+    end
     view(0,0);
 end
 
@@ -62,7 +62,7 @@ gp = [r_p(1); 0; r_p(2)];
 plot3(gp(1), gp(2), gp(3), [color, 'x'], 'MarkerSize', 8);
 
 %% plot robot pose
-subplot(2,1,1);
+subplot(2,2,1);
 title('Robot poses in the current vicinity');
 
 % set up plot

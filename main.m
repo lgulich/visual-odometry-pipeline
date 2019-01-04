@@ -210,9 +210,6 @@ for i = range
             [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state, i);
             
             % rectify vo state
-%             robot_pose_vo_curr_rec(1) = robot_pose_vo_curr(1)/kalman_state.X(4);
-%             robot_pose_vo_curr_rec(2) = robot_pose_vo_curr(2)/kalman_state.X(5);
-%             robot_pose_vo_curr_rec(3:4) = robot_pose_vo_curr(3:4);
             d_robot_pose_vo_rec = d_robot_pose_vo./[kalman_state.X(4); kalman_state.X(5); 1; 1].';
 
 
