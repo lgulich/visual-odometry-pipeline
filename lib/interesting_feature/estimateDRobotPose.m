@@ -22,18 +22,19 @@ X = kalman_state_prev.X;
 % z = X(2); for reference
 % gamma = X(3); for reference
 % beta = X(4); for reference
+% delta = X(5); for reference
 
 Z = [d_robot_pose_vo(1:3).'; d_robot_pose_wo(1:3).'];
 
 P = kalman_state_prev.P;
 
-Q = diag([0.1; 0.1; 0.1; 0.1].^2);
-R = diag([0.3, 0.3, 0.2, 0.1, 0.1, 0.1].^2);
+Q = diag([0.075; 0.075; 0.1; 0.2; 0.2].^2);
+R = diag([0.1, 0.1, 0.1, 0.01, 0.01, 0.01].^2);
 
 %% prior update
 % define linearized matrices
-A = eye(4);
-L = eye(4);
+A = eye(5);
+L = eye(5);
 
 % compute updated
 X_p = A*X;
@@ -43,23 +44,24 @@ x_p = X_p(1);
 z_p = X_p(2);
 gamma_p = X_p(3);
 beta_p = X_p(4);
+delta_p = X_p(5);
 
 %% measurement update
 % define linearized matrices
-H = [beta_p 0 0 x_p; ...
-    0 beta_p 0 z_p; ...
-    0 0 1 0; ...
-    1 0 0 0; ...
-    0 1 0 0; ...
-    0 0 1 0];
-M = diag([beta_p beta_p 1 1 1 1]);
+H = [beta_p 0 0 x_p 0; ...
+    0 delta_p 0 0 z_p; ...
+    0 0 1 0 0; ...
+    1 0 0 0 0; ...
+    0 1 0 0 0; ...
+    0 0 1 0 0];
+M = diag([beta_p delta_p 1 1 1 1]);
 
 % compute update
 K = P_p*H.'/(H*P_p*H.' + M*R*M.');
 h = [beta_p*x_p; beta_p*z_p; gamma_p; x_p; z_p; gamma_p];
 
 X_m = X_p + K*(Z-h) % TODO VK
-P_m = (eye(4)-K*H)*P_p;
+P_m = (eye(5)-K*H)*P_p;
 
 %% write new kalman state
 kalman_state_curr.X = X_m;

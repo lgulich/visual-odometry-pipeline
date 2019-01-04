@@ -207,18 +207,21 @@ for i = range
             [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state);
             
             % rectify vo state
-            robot_pose_vo_curr_rec(1:2) = robot_pose_vo_curr(1:2)/kalman_state.X(4);
+            robot_pose_vo_curr_rec(1) = robot_pose_vo_curr(1)/kalman_state.X(4);
+            robot_pose_vo_curr_rec(2) = robot_pose_vo_curr(2)/kalman_state.X(5);
             robot_pose_vo_curr_rec(3:4) = robot_pose_vo_curr(3:4);
             
             % update W state
             robot_pose_W_curr = integrateRobotPose(robot_pose_W_last, d_robot_pose_W, theta_curr);
             
             % plot vo, wo and W robot poses
-            if(~mod(i,15+range(2)) || i == range(2))
+            every = true;
+            if(~mod(i,15+range(2)) || i == range(2) || every)
                 patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, -1.8, patch_bool);
-                patch_bool = plotRobotPose(robot_pose_wo_curr, 'c', image, 0, patch_bool);
+                patch_bool = plotRobotPose(robot_pose_wo_curr, 'm', image, 0, patch_bool);
+                patch_bool = plotRobotPose(robot_pose_vo_curr, 'c', image, 0, patch_bool);
                 patch_bool = plotRobotPose(robot_pose_vo_curr_rec, 'b', image, 0, patch_bool);
-                plotCamera('Location',T_W_C_curr_rec(1:3,4)/kalman_state.X(4),'Orientation',T_W_C_curr_rec(1:3,1:3),'Size',0.05,'Color','k');
+                plotCamera('Location',T_W_C_curr_rec(1:3,4),'Orientation',T_W_C_curr_rec(1:3,1:3),'Size',0.05,'Color','k');
             end
             
             % update vo iterators
@@ -234,8 +237,8 @@ for i = range
             
             % initialize global quantities
             patch_bool = true; 
-            kalman_state.X = [0.0; 0.0; 0.0; 1.0];
-            kalman_state.P = diag([0.0; 0.0; 0.0; 1.0].^2);
+            kalman_state.X = [0.0; 0.0; 0.0; 2; 2];
+            kalman_state.P = diag([0.0; 0.0; 0.0; 0.1; 0.1].^2);
             
             % initialize W iterators
             theta_last = double(ascento_est_states{i*20-2}.EstThetaMean);
