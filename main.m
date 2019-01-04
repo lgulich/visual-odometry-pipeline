@@ -200,6 +200,10 @@ for i = range
             % combine translation vectors
             [d_robot_pose_W, kalman_state] = estimateDRobotPose(d_robot_pose_vo, d_robot_pose_wo, theta_curr, kalman_state);
             
+            % rectify vo state
+            robot_pose_vo_curr_rec(1:2) = robot_pose_vo_curr(1:2)/kalman_state.X(4);
+            robot_pose_vo_curr_rec(3:4) = robot_pose_vo_curr(3:4);
+            
             % update W state
             robot_pose_W_curr = integrateRobotPose(robot_pose_W_last, d_robot_pose_W, theta_curr);
             
@@ -207,8 +211,8 @@ for i = range
             if(~mod(i,15+range(2)) || i == range(2))
                 patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, -1.8, patch_bool);
                 patch_bool = plotRobotPose(robot_pose_wo_curr, 'c', image, 0, patch_bool);
-                patch_bool = plotRobotPose(robot_pose_vo_curr, 'b', image, 0, patch_bool);
-                plotCamera('Location',T_W_C_curr_rec(1:3,4),'Orientation',T_W_C_curr_rec(1:3,1:3),'Size',0.05,'Color','k');
+                patch_bool = plotRobotPose(robot_pose_vo_curr_rec, 'b', image, 0, patch_bool);
+                plotCamera('Location',T_W_C_curr_rec(1:3,4)/kalman_state.X(4),'Orientation',T_W_C_curr_rec(1:3,1:3),'Size',0.05,'Color','k');
             end
             
             % update vo iterators

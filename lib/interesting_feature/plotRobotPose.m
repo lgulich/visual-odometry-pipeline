@@ -18,8 +18,8 @@ figure(2);
 
 %% plot corresponding image
 subplot(2,2,[3,4]);
-title('Image as reference');
 imshow(image, 'InitialMagnification', 'fit');
+title('Image as reference');
 drawnow;
 
 %% plot trajectory
