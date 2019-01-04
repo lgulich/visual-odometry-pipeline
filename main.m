@@ -168,6 +168,9 @@ for i = range
     if af == 1
         if i > range(1)
             
+            % update world iterators
+            theta_curr = double(double(ascento_est_states{i*20-2}.EstThetaMean));
+            
             % update vo state
             robot_pose_vo_curr = tf2RobotPose(T_W_C_curr, theta_curr);
             
@@ -175,7 +178,6 @@ for i = range
             x_curr = double((-ascento_est_states{i*20-2}.EstRobotYPos) - x_initial);
             z_curr = double(ascento_est_states{i*20-2}.EstRobotXPos - z_initial);
             gamma_curr = double(ascento_est_states{i*20-2}.EstRobotGammaOrient - gamma_initial);
-            theta_curr = double(double(ascento_est_states{i*20-2}.EstThetaMean));
             
             robot_pose_wo_curr(1) = x_curr*cos(gamma_initial)+z_curr*sin(gamma_initial);
             robot_pose_wo_curr(2) = z_curr*cos(gamma_initial)-x_curr*sin(gamma_initial);
