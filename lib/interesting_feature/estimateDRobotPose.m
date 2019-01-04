@@ -59,7 +59,7 @@ M = diag([beta_p delta_p 1 1 1 1]);
 K = P_p*H.'/(H*P_p*H.' + M*R*M.');
 h = [beta_p*x_p; delta_p*z_p; gamma_p; x_p; z_p; gamma_p];
 
-X_m = X_p + K*(Z-h) % TODO VK
+X_m = X_p + K*(Z-h);
 P_m = (eye(5)-K*H)*P_p;
 
 %% write new kalman state
@@ -67,15 +67,14 @@ kalman_state_curr.X = X_m;
 kalman_state_curr.P = P_m;
 
 % plot scale factors
-figure(3)
-hold on
-plot(i, X_m(4), 'bo');
-plot(i, X_m(5), 'ro');
-% plot(i, d_robot_pose_vo(1)/d_robot_pose_wo(1), 'mo');
+% figure(3)
+% hold on
+% plot(i, X_m(4), 'bo');
+% plot(i, X_m(5), 'ro');
 
 %% assemble the world robot pose
 d_robot_pose_W = [kalman_state_curr.X(1); kalman_state_curr.X(2); ...
-                   kalman_state_curr.X(3); theta_curr];
+    kalman_state_curr.X(3); theta_curr];
 
 end
 

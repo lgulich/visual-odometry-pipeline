@@ -4,7 +4,7 @@ function patch_out = plotRobotPose(r_p,color,image,map_size, patch_in)
 %   :param rp: vector, robot pose
 %   :param color: string, the desired color of the robot pose
 %   :param image: image, corresponding image
-%   :param map_size: double, 0: for no replot, pos: for rectangle scale, 
+%   :param map_size: double, 0: for no replot, pos: for rectangle scale,
 %   neg: for robot follower with -rectangle scale
 %   :param patch_in: bool, a flag if it's the first time plotting
 %
@@ -26,7 +26,7 @@ drawnow;
 subplot(2,2,2);
 title('Global trajectory');
 
-show_vo_drift = false;
+show_vo_drift = true;
 
 % set up plot
 if map_size == 0
