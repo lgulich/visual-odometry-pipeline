@@ -132,12 +132,6 @@ trackedLandmarksOverLast20Frames{end} = init_landmarks([1,3],:);
 last20FramesIdx = 1:20;
 
 %% Continuous operation
-figure(2)
-clf;
-figure(3)
-clf;
-fprintf('\n Press any key to start the continous operation...');
-% pause; % TODO remove before hand-in
 
 % Setup
 range = (bootstrap_frames(2)+1):last_frame;
@@ -175,13 +169,13 @@ for i = range
         additionalFeature;
     end
     
-    % Plot
-    %     [last20FramesIdx, ...
-    %          num_tracked_landmarks_all, t_W_C_all, trackedLandmarksOverLast20Frames] = ...
-    %                                     plotVO( curr_state, T_W_C_curr, image, ...
-    %                                     num_tracked_landmarks_all, t_W_C_all, ...
-    %                                     trackedLandmarksOverLast20Frames, ...
-    %                                     last20FramesIdx, ground_truth );
+    %     Plot
+    %         [last20FramesIdx, ...
+    %              num_tracked_landmarks_all, t_W_C_all, trackedLandmarksOverLast20Frames] = ...
+    %                                         plotVO( curr_state, T_W_C_curr, image, ...
+    %                                         num_tracked_landmarks_all, t_W_C_all, ...
+    %                                         trackedLandmarksOverLast20Frames, ...
+    %                                         last20FramesIdx, ground_truth );
     
     % Make sure that plots refresh
     pause(0.01);
