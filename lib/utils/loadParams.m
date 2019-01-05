@@ -25,7 +25,7 @@ params.ascento_path = 'data/ascento';
 params.bootstrap_frames = [1, 2];   % overriden for all datasets
 params.ROI = [];                    % overriden for all datasets
 params.uniq = false;
-params.max_ratio = 0.5;     
+params.max_ratio = 0.5;   
 
 % keypoint detection and maching
 params.keypoint_type = 'harris';
@@ -130,8 +130,8 @@ elseif strcmp(dataset, 'ascento')
     
     % Rectangular region for detecting Harris corners
     params.ROI = [62.5 81.5 618 329];        % larger       
-%     params.ROI = [92.5 99.5 571 293];        % smaller
-    
+    % params.ROI = [92.5 99.5 571 293];        % smaller
+ 
     % 8 point algorithm
     params.eightp_num_trials = 32000;
     params.eightp_dist_threshold = 0.0001;
