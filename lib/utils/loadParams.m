@@ -10,10 +10,9 @@ function [params] = loadParams(dataset)
 % For an example see the parameter 'bootstrap_frames' which is overriden
 % for all datasets
 
-
-
 %% General parameters
 params.viz_enabled = false;
+params.warn_enabled = false;
 
 params.kitti_path = 'data/kitti';
 params.malaga_path = 'data/malaga';
@@ -25,6 +24,7 @@ params.ascento_path = 'data/ascento';
 params.bootstrap_frames = [1, 2];   % overriden for all datasets
 params.ROI = [];                    % overriden for all datasets
 params.uniq = false;
+params.filt_size = 5;
 params.max_ratio = 0.5;   
 
 % keypoint detection and maching
@@ -40,56 +40,70 @@ params.matching_mode = 'patch_matching'; %'patch_matching' or 'klt'
 if strcmp(dataset, 'kitti')
     params.bootstrap_frames = [1,3];
     
+    % Matching keypoints
+    params.matching_mode = 'klt';
+    params.n_keypoints = 1100;
+    params.uniq = true;
+    params.max_ratio = 0.97;
+    params.feature_quality = 1e-4;
+    params.filt_size = 3;
+    
     % 8 point algorithm
-    params.eightp_num_trials = 32000;
-    params.eightp_dist_threshold = 0.0001;
-    params.eightp_confidence = 85;
+    params.eightp_num_trials = 64000;
+    params.eightp_dist_threshold = 0.001;
+    params.eightp_confidence = 99.99;
+    
     % Continuous operation parameters
     params.min_angle = 2;               % minimum angle for triangulating
     params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
                                         % candidate keypoints
-
     % KLT parameters
-    params.lambda = 1;                  % maximum bidirectional error
-    params.num_pyr_levels = 5;
+    params.lambda = 2;                  % maximum bidirectional error
+    params.num_pyr_levels = 6;
     params.bl_size = [31, 31];
-    params.max_its = 32;
+    params.max_its = 40;
 
     % P3P parameters
-    params.max_num_trials = 32000;
-    params.conf = 99.9;
-    params.max_repr_err = 0.8;
+    params.max_num_trials = 1000;
+    params.conf = 99.99;
+    params.max_repr_err = 1;
     
-    % triangulation of new landmarks parameters
-    params.strong_to_uniform_kp_ratio = 0.5;
+    % Triangulation of new landmarks parameters
+    params.strong_to_uniform_kp_ratio = 0.13;
     
 %% params for MALAGA
 elseif strcmp(dataset, 'malaga')
     params.bootstrap_frames = [1,3];
     
+    % Matching keypoints
+    params.n_keypoints = 1000;
+    params.uniq = true;
+    params.max_ratio = 0.9;
+    params.feature_quality = 1e-4;
+    params.filt_size = 3;
+    
     % 8 point algorithm
-    params.eightp_num_trials = 32000;
-    params.eightp_dist_threshold = 0.0001;
-    params.eightp_confidence = 85;
+    params.eightp_num_trials = 64000;
+    params.eightp_dist_threshold = 0.001;
+    params.eightp_confidence = 99.99;
     
     % Continuous operation parameters
     params.min_angle = 2;               % minimum angle for triangulating
     params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
                                         % candidate keypoints
-
     % KLT parameters
-    params.lambda = 1;                  % maximum bidirectional error
+    params.lambda = 2;                  % maximum bidirectional error
     params.num_pyr_levels = 5;
     params.bl_size = [31, 31];
-    params.max_its = 32;
+    params.max_its = 40;
 
     % P3P parameters
-    params.max_num_trials = 32000;
-    params.conf = 99.9;
-    params.max_repr_err = 0.8;
-       
+    params.max_num_trials = 1000;
+    params.conf = 99.99;
+    params.max_repr_err = 1;
+    
     % triangulation of new landmarks parameters
-    params.strong_to_uniform_kp_ratio = 0.5;
+    params.strong_to_uniform_kp_ratio = 0.16;
 
 %% params for PARKING
 elseif strcmp(dataset, 'parking')
@@ -109,7 +123,6 @@ elseif strcmp(dataset, 'parking')
     params.min_angle = 2;               % minimum angle for triangulating
     params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
                                         % candidate keypoints
-
     % KLT parameters
     params.lambda = 0.56;                  % maximum bidirectional error
     params.num_pyr_levels = 4;
@@ -141,7 +154,6 @@ elseif strcmp(dataset, 'ascento')
     params.min_angle = 2;               % minimum angle for triangulating
     params.new_cand_kpt_threshold = 3;  % threshold for selecting new 
                                         % candidate keypoints
-
     % KLT parameters
     params.lambda = 1;                  % maximum bidirectional error
     params.num_pyr_levels = 5;

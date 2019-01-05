@@ -40,7 +40,6 @@ release(pointTracker)
                                 'MaxNumTrials', params.max_num_trials, ...
                                 'Confidence', params.conf, ...
                                 'MaxReprojectionError', params.max_repr_err);
-% warning('off', 'vision:ransac:maxTrialsReached');
 assert(status == 0, sprintf('Error in P3P: status = %d.', status));
 
 curr_kpts = curr_kpts(:,inlierIdx);

@@ -10,7 +10,8 @@ function [points] = getKeypoints(img, params)
 if strcmp(params.keypoint_type, 'harris')
     points = detectHarrisFeatures(img, ...
                                   'MinQuality', params.feature_quality, ...
-                                  'ROI', params.ROI);
+                                  'ROI', params.ROI, ...
+                                  'FilterSize', params.filt_size);
     
 elseif strcmp(params.keypoint_type, 'surf')
     points = detectSURFFeatures(img)
