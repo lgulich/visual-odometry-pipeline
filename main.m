@@ -170,6 +170,7 @@ for i = range
         additionalFeature;
     end
     
+    % Plot the output of the vo pipeline
     if af == false
         [last20FramesIdx, ...
            num_tracked_landmarks_all, t_W_C_all, trackedLandmarksOverLast20Frames] = ...
