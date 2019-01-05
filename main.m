@@ -6,9 +6,9 @@ rng(1) % set seed for repeatable results
 
 %% Setup
 ds = 3; % dataset: 0: KITTI, 1: Malaga, 2: parking, 3: ascento
-af = 1; % additional feature: 0: off, 1:on
+af = false; % additional feature: false: off, true:on
 
-if af==1 && ds~=3
+if af == true && ds ~= 3
     error('Error: Additional feature not possible with the selected dataset.')
 end
 
@@ -61,6 +61,7 @@ elseif ds == 3
     load([ascento_path '/est_states.mat']);
     if af == 1
         est_states_start_index = 18;
+        plotting_speed = 15;
         simulate_vo = false;
     end
 else
@@ -169,13 +170,14 @@ for i = range
         additionalFeature;
     end
     
-    %     Plot
-    %         [last20FramesIdx, ...
-    %              num_tracked_landmarks_all, t_W_C_all, trackedLandmarksOverLast20Frames] = ...
-    %                                         plotVO( curr_state, T_W_C_curr, image, ...
-    %                                         num_tracked_landmarks_all, t_W_C_all, ...
-    %                                         trackedLandmarksOverLast20Frames, ...
-    %                                         last20FramesIdx, ground_truth );
+    if af == false
+        [last20FramesIdx, ...
+           num_tracked_landmarks_all, t_W_C_all, trackedLandmarksOverLast20Frames] = ...
+                                            plotVO( curr_state, T_W_C_curr, image, ...
+                                            num_tracked_landmarks_all, t_W_C_all, ...
+                                            trackedLandmarksOverLast20Frames, ...
+                                            last20FramesIdx, ground_truth );
+    end
     
     % Make sure that plots refresh
     pause(0.01);

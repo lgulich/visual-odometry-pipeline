@@ -53,7 +53,7 @@ if i > range(1)
     
     % plot vo, wo and W robot poses
     every = false;
-    if(~mod(i,15+range(2)) || i == range(2) || every)
+    if(~mod(i,plotting_speed+range(2)) || i == range(2) || every)
         patch_bool = plotRobotPose(robot_pose_W_curr, 'r', image, -1.8, patch_bool);
         patch_bool = plotRobotPose(robot_pose_wo_curr, 'm', image, 0, patch_bool);
         patch_bool = plotRobotPose(robot_pose_vo_curr, 'c', image, 0, patch_bool);
