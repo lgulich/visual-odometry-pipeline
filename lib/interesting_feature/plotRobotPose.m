@@ -23,7 +23,7 @@ title('Image as reference');
 drawnow;
 
 %% plot trajectory
-subplot(2,2,2);
+subplot(2,2,1);
 title('Global trajectory');
 
 show_vo_drift = false;
@@ -61,8 +61,15 @@ patch_out = false;
 gp = [r_p(1); 0; r_p(2)];
 plot3(gp(1), gp(2), gp(3), [color, 'x'], 'MarkerSize', 8);
 
+h = zeros(4, 1);
+h(1) = plot(NaN,NaN,'cx');
+h(2) = plot(NaN,NaN,'bx');
+h(3) = plot(NaN,NaN,'mx');
+h(4) = plot(NaN,NaN,'rx');
+legend(h,'Visual Odometry','Rectified Visual Odometry','Wheel Odometry','Fused Estimate');
+
 %% plot robot pose
-subplot(2,2,1);
+subplot(2,2,2);
 title('Robot poses in the current vicinity');
 
 % set up plot
