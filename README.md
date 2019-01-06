@@ -31,3 +31,10 @@ For the dataset "Ascento" you can additionally turn on/off the wheel odometry fu
 * `False` - Only use visual odometry
 
 For further information see the [wiki](https://github.com/lgulich/vision_project/wiki)
+
+## Videos
+
+All Videos can be found on YouTube under the following [link](https://www.youtube.com/playlist?list=PLontLx8LzKiKnGcEXOgwrntr8GkptaOE_).
+
+
+
