@@ -40,5 +40,6 @@ For further information see the [wiki](https://github.com/lgulich/vision_project
 All Videos can be found on YouTube under the following [link](https://www.youtube.com/playlist?list=PLontLx8LzKiKnGcEXOgwrntr8GkptaOE_).
 
 The videos were recorded using `MATLAB 2018b` on a computer with specs:
-* Intel i7 7700HQ 2.8 Ghz
-* 8 Gb RAM
+* CPU: Intel i7 7700HQ 2.8 Ghz
+* GPU: NVIDIA gtx 1050
+* RAM: 8 Gb
