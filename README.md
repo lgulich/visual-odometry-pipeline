@@ -46,6 +46,8 @@ The videos were recorded using `MATLAB 2018a` on a computer with specs:
 * GPU: NVIDIA gtx 1050
 * RAM: 8 Gb
 
+All code is single-threaded.
+
 ## Team Members
 * Flavio De Vincenti
 * Lionel Gulich
