@@ -38,21 +38,18 @@ set(gcf, 'GraphicsSmoothing', 'on')
 
 % Right
 
-landmarks = cell2mat(trackedLandmarksOverLast20Frames);
-landmarks = unique(landmarks.', 'rows').';
+% landmarks = cell2mat(trackedLandmarksOverLast20Frames);
+% landmarks = unique(landmarks.', 'rows').';
 subplot(4,4,[3,4,7,8,11,12,15,16])
 
  % define limits of plot
 xlim('manual');
 ylim('manual');
-%         
+        
 r_x = 10*abs(max(t_W_C_all(1,last20FramesIdx))-min(t_W_C_all(1,last20FramesIdx)))/2+1;
 r_z = 10*abs(max(t_W_C_all(2,last20FramesIdx))-min(t_W_C_all(2,last20FramesIdx)))/2+1;
 xlim([(t_W_C_all(1,end))-r_x, (t_W_C_all(1,end))+r_x]);
 ylim([(t_W_C_all(2,end))-r_z, (t_W_C_all(2,end))+r_z]);
-% 
-
-
 
 plot(t_W_C_all(1,last20FramesIdx), t_W_C_all(2,last20FramesIdx),'b-o',...
             'MarkerSize', 1.6, 'MarkerFaceColor', 'b'), hold on

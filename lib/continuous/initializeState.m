@@ -17,8 +17,8 @@ if nargin == 2
     init_keypoints = init_keypoints.Location.';
     assert(size(init_keypoints,1) == 2);
     assert(size(init_landmarks,1) == 3);
-    init_state.P = init_keypoints;
-    init_state.X = init_landmarks;
+    init_state.P = double(init_keypoints);
+    init_state.X = double(init_landmarks);
 end
 init_state.C = [];
 init_state.F = [];

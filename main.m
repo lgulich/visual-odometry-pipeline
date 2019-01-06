@@ -5,7 +5,7 @@ clc
 rng(1) % set seed for repeatable results
 
 %% Setup
-ds = 3; % dataset: 0: KITTI, 1: Malaga, 2: parking, 3: ascento
+ds = 0; % dataset: 0: KITTI, 1: Malaga, 2: parking, 3: ascento
 af = false; % additional feature: false: off, true:on
 
 if af == true && ds ~= 3
@@ -114,7 +114,7 @@ end
 
 % Calculate initial pose, keypoints and landmarks
 [init_pose, init_keypoints, init_landmarks] = initialize(img0, img1, params);
-display(init_pose);
+
 %% Initialize plot
 num_tracked_landmarks_all = [zeros(1,18), size(init_landmarks,2), ...
     zeros(1,last_frame-bootstrap_frames(2))];
@@ -126,13 +126,15 @@ t_W_C_all = [zeros(2,18), init_pose([1,3],end), ...
 % Each cell contains the x and z coordinates of the tracked landmarks of
 % the corresponding frames
 trackedLandmarksOverLast20Frames = cell(1,20);
-for i = 1:19
-    trackedLandmarksOverLast20Frames{i} = single([]);
-end
 trackedLandmarksOverLast20Frames{end} = init_landmarks([1,3],:);
 last20FramesIdx = 1:20;
 
 %% Continuous operation
+if ~params.warn_enabled
+    warning('off', 'vision:ransac:maxTrialsReached');
+else
+    warning('on', 'vision:ransac:maxTrialsReached');
+end
 
 % Setup
 range = (bootstrap_frames(2)+1):last_frame;
@@ -186,9 +188,10 @@ for i = range
     prev_img = image;
     prev_state = curr_state;
     
-    %save jpeg frames in plotFrames folder (see record script for imagesToVideo
-    fname = 'plotFrames';
-    filename = sprintf('fig%04d',i-3);
-    saveas(gcf, fullfile(fname, filename), 'jpeg');
+    % save jpeg frames in plotFrames folder (see record script for
+    % imagesToVideo)
+%     fname = 'plotFrames';
+%     filename = sprintf('fig%04d',i-3);
+%     saveas(gcf, fullfile(fname, filename), 'jpeg');
     
 end
