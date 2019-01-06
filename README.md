@@ -1,6 +1,9 @@
 # Vision Project
 Repo for the Vision Algorithms for Mobile Robotics Course Project 2018. In this project a simple visual odometry pipeline is created.
 
+# Prerequisites
+* `MATLAB 2018b`
+
 ### How to setup this project
 
 Download the repo using
@@ -36,4 +39,6 @@ For further information see the [wiki](https://github.com/lgulich/vision_project
 
 All Videos can be found on YouTube under the following [link](https://www.youtube.com/playlist?list=PLontLx8LzKiKnGcEXOgwrntr8GkptaOE_).
 
-For recording the videos the code was run on a INTEL BLABLBAL with 1 million gb ram. The code was run using `MATLAB 2018b`
+The videos were recorded using `MATLAB 2018b` on a computer with specs:
+* Intel i7 7700HQ 2.8 Ghz
+* 8 Gb RAM
