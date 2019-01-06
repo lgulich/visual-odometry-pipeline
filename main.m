@@ -56,13 +56,17 @@ elseif ds == 2
 elseif ds == 3
     % Path containing images, depths and all...
     assert(exist('ascento_path', 'var') ~= 0);
-    last_frame = 499;
+    last_frame = 999;
     K = load([ascento_path '/K.txt']);
     load([ascento_path '/est_states.mat']);
     if af == 1
+        last_frame = 499;
         est_states_start_index = 18;
         plotting_speed = 15;
         simulate_vo = false;
+        warning('Results differ from video due to retuning of visual odometry parameters. For reaching the same results again with the combined pipeline will require a retuning of the kalman filter. Press any button to continue');
+        pause;
+
     end
 else
     error('dataset not found');

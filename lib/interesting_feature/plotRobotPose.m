@@ -44,9 +44,9 @@ else
         ylim([-1.5,0.1]);
         zlim([13.4,15]);
     else
-        xlim([-2,17]);
+        xlim([-2,20]);
         ylim([-1.5,0.1]);
-        zlim([-2,17]);
+        zlim([-2,20]);
     end
     view(0,0);
 end
