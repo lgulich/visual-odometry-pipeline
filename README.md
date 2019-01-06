@@ -5,6 +5,7 @@ Repo for the Vision Algorithms for Mobile Robotics Course Project 2018. In this 
 * `MATLAB 2018a`
 * `Robotics System Tool Box`
 * `Computer Vision System Tool Box`
+* `Phased Array System Tool Box`
 
 ### How to setup this project
 
