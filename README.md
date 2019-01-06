@@ -27,8 +27,8 @@ For changing the datasets there are parameters in the `main.m` file which can be
 * `3` - Ascento
 
 For the dataset "Ascento" you can additionally turn on/off the wheel odometry fusion with the parameter `af`. Options are:
-* `True` - Fuse visual and wheel odometry
-* `False` - Only use visual odometry
+* `true` - Fuse visual and wheel odometry
+* `false` - Only use visual odometry
 
 For further information see the [wiki](https://github.com/lgulich/vision_project/wiki)
 
@@ -36,5 +36,4 @@ For further information see the [wiki](https://github.com/lgulich/vision_project
 
 All Videos can be found on YouTube under the following [link](https://www.youtube.com/playlist?list=PLontLx8LzKiKnGcEXOgwrntr8GkptaOE_).
 
-
-
+For recording the videos the code was run on a INTEL BLABLBAL with 1 million gb ram. The code was run using `MATLAB 2018b`
