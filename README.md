@@ -43,3 +43,9 @@ The videos were recorded using `MATLAB 2018b` on a computer with specs:
 * CPU: Intel i7 7700HQ 2.8 Ghz
 * GPU: NVIDIA gtx 1050
 * RAM: 8 Gb
+
+## Team Members
+* Flavio De Vincenti
+* Lionel Gulich
+* Victor Klemm
+* Tommaso Macrí
