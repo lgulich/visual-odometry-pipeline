@@ -12,13 +12,6 @@ if strcmp(params.keypoint_type, 'harris')
                                   'MinQuality', params.feature_quality, ...
                                   'ROI', params.ROI, ...
                                   'FilterSize', params.filt_size);
-    
-elseif strcmp(params.keypoint_type, 'surf')
-    points = detectSURFFeatures(img)
-    
-elseif strcmp(params.keypoint_type, 'fast')
-    points = detectFASTFeatures(img)
-    
 end
 
 % select only the strongest keypoints according to metrics
